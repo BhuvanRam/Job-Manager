@@ -1,0 +1,47 @@
+﻿<Window x:Class="Job_Manager.JobDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="Job Details" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Canvas Name="SearchCanvas">
+            <Label Name="lblSearch" Content="Job Id:" Canvas.Top="5" Canvas.Left="10"></Label>
+            <TextBox Name="txtSearchJobId" Canvas.Top="10" Canvas.Left="120" Width="100" PreviewKeyDown="txtSearchJobId_PreviewKeyDown"></TextBox>
+            <Button Name="btnSearch" Content ="Search" Canvas.Top="10" Canvas.Left="250" Width="100" Click="btnSearch_Click"></Button>
+            <Label Name="lblErrorMsg" Content="Job details not found. Please try again!!!" Canvas.Top="40" Canvas.Left="10"></Label>
+        </Canvas>
+        <Canvas Name="TopCanvas">
+             <Label Name="lblJobId" Content="Job Id:" Canvas.Top="40" Canvas.Left="10" FontSize="16" FontWeight="Bold"></Label>
+            <TextBox Name="txtJobId" Canvas.Top="40" Canvas.Left="120" FontSize="16" FontWeight="Bold" IsReadOnly="True"></TextBox>
+            <Label Name="lblJobName" Content="Name:" Canvas.Top="40" Canvas.Left="150" FontSize="16" FontWeight="Bold"></Label>
+            <TextBox Name="txtJobName" Canvas.Top="40" Canvas.Left="250" FontSize="16" FontWeight="Bold" IsReadOnly="True"></TextBox>
+            <Label Name="lblCreatedDate" Content="Created Date:" Canvas.Top="40" Canvas.Left="350" FontSize="16" FontWeight="Bold"></Label>
+            <TextBox Name="txtCreateDate" Canvas.Top="40" Canvas.Left="480" FontSize="16" FontWeight="Bold"></TextBox>
+            <Button Name="btnAddMaterial" Content="_Add Material" Canvas.Top="80" Canvas.Left="10" Click="btnAddMaterial_Click"></Button>
+            <Button Name="btnEditMaterial" Content="_Edit Material" Canvas.Top="80" Canvas.Left="100"></Button>
+            <Button Name="btnDeleteMaterial" Content="_Delete Material" Canvas.Top="80" Canvas.Left="190" Click="btnDeleteMaterial_Click"></Button>
+        
+        
+        <DataGrid Name="dgJobMaterials" AutoGenerateColumns="False" Height="200" IsReadOnly="True" Width="550" Canvas.Left="10"  Canvas.Top="120">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Width="80" Header="Material"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Type}" Width="80" Header="Type"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Attributes}" Width="140" Header="Attributes">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Width="80" Header="PO #"></DataGridTextColumn>
+                <DataGridTextColumn  Width="80" Header="Ordered By"></DataGridTextColumn>
+                <DataGridTextColumn  Width="80" Header="Ordered On"></DataGridTextColumn>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        </Canvas>
+    </Grid>
+</Window>

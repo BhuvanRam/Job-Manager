@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Job Manager", "Job Manager\Job Manager.csproj", "{2E8EEE02-C790-47DA-9857-C29C7EFE0FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobManager.DAL", "JobManager.DAL\JobManager.DAL.csproj", "{5C8A24B5-E748-43C1-9FDF-B0971D5404C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobManager.Model", "JobManager.Model\JobManager.Model.csproj", "{B58678F8-4B57-45CA-937F-25DD56803700}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E8EEE02-C790-47DA-9857-C29C7EFE0FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E8EEE02-C790-47DA-9857-C29C7EFE0FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E8EEE02-C790-47DA-9857-C29C7EFE0FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E8EEE02-C790-47DA-9857-C29C7EFE0FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8A24B5-E748-43C1-9FDF-B0971D5404C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8A24B5-E748-43C1-9FDF-B0971D5404C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8A24B5-E748-43C1-9FDF-B0971D5404C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8A24B5-E748-43C1-9FDF-B0971D5404C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B58678F8-4B57-45CA-937F-25DD56803700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B58678F8-4B57-45CA-937F-25DD56803700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B58678F8-4B57-45CA-937F-25DD56803700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B58678F8-4B57-45CA-937F-25DD56803700}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

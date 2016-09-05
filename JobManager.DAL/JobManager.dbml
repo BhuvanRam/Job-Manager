@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Global Environ" Class="JobManagerDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(local);Initial Catalog=&quot;Global Environ&quot;;Integrated Security=True" SettingsObjectName="JobManager.DAL.Properties.Settings" SettingsPropertyName="Global_EnvironConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.GetMaterialsForJob" Method="GetMaterialsForJob">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetMaterialsForJobResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetAttributeValues" Method="GetAttributeValues">
+    <Parameter Name="AttibuteId" Parameter="attibuteId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetAttributeValuesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetAttributesOfMaterial" Method="GetAttributesOfMaterial">
+    <Parameter Name="MaterialId" Parameter="materialId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetAttributesOfMaterialResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HasChilds" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetChildAttributeValues" Method="GetChildAttributeValues">
+    <Parameter Name="ParentAttibuteValueId" Parameter="parentAttibuteValueId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetChildAttributeValuesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.INSUPDJobMaterial" Method="INSUPDJobMaterial">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MaterialId" Parameter="materialId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AttributeId" Parameter="attributeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ValueId" Parameter="valueId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Value" Parameter="value" Type="System.String" DbType="VarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DelJobMaterial" Method="DelJobMaterial">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MaterialId" Parameter="materialId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetJobMaterials" Method="GetJobMaterials">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobMaterialsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Attributes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetJobDetails" Method="GetJobDetails">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobDetailsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
