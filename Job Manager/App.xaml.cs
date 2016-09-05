@@ -10,7 +10,7 @@ namespace Job_Manager
 {
     /// <summary>
     /// Interaction logic for App.xaml
-    /// Verifying JIT checkin
+    /// Verifying JIT checkin and the Username
     /// </summary>
     public partial class App : Application
     {
