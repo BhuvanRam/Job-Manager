@@ -18,6 +18,7 @@ using JobManager.Model;
 namespace Job_Manager
 {
     /// <summary>
+    /// Verifying the GIT checkin
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class JobDetails : Window
