@@ -1,0 +1,33 @@
+﻿<Window x:Class="Job_Manager.Attribute"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="Attribute" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="lblAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
+        <TextBox x:Name="txtAttributeName" Grid.Column="1" Height="20" Width="120" Text="{Binding AttributeName}" ></TextBox>
+
+        <Label x:Name="lblAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
+        <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedAttributeTypeItem}"></ComboBox>
+
+        <Button Grid.Row="2" Grid.Column="0" Content="Add Attribute" Width="80" Height="25" Command="{Binding CreateAttributeCommand}" IsEnabled="True"> </Button>
+        <Label x:Name="lblStatus" Content="{Binding AttributeResult}" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
+        
+    </Grid>
+    
+</Window>

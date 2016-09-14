@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job_Manager.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
@@ -16,13 +17,14 @@ using System.Windows.Shapes;
 namespace Job_Manager
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Attribute.xaml
     /// </summary>
-    [PrincipalPermission(SecurityAction.Demand, Role = "Administrators")]
-    public partial class MainWindow : Window,IView
+    [PrincipalPermission(SecurityAction.Demand,Authenticated=false)]
+    public partial class Attribute : Window,IView
     {
-        public MainWindow()
+        public Attribute(AttributeViewModel attributeViewModel)
         {
+            ViewModel = attributeViewModel;
             InitializeComponent();
         }
 
@@ -32,28 +34,11 @@ namespace Job_Manager
             {
                 return DataContext as IViewModel;
             }
+
             set
             {
                 DataContext = value;
             }
-        }
-
-        private void MenuSearchItem_Click(object sender, RoutedEventArgs e)
-        {
-            JobDetails JobWindow = new Job_Manager.JobDetails();
-            JobWindow.ShowInTaskbar = false;
-            JobWindow.Owner = this;
-            JobWindow.ShowDialog();
-        }
-
-        private void MenuExitItem_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void MenuAddAttribute_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

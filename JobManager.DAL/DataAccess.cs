@@ -112,6 +112,30 @@ namespace JobManager.DAL
             return attribValues;
         }
 
+        public List<AttributeTypeModel> GetAllAttributeTypes()
+        {
+            List<AttributeTypeModel> attribValues = new List<AttributeTypeModel>();
+            var result = jmdc.GetAllAttributesTypes().Select(p => new { AttributeTypeId = p.Id, AttributeTypeName = p.Name });
+            result.ToList().ForEach(p => { attribValues.Add(new AttributeTypeModel() { AttributeTypeId = p.AttributeTypeId, AttributeTypeName = p.AttributeTypeName }); });
+            return attribValues;            
+        }
+
+        public bool CreateAttribute(AttributeModel objAttributeModel)
+        {
+            try
+            {
+                Attribute objAttribute = new Attribute() { Name = objAttributeModel.AttributeName, TypeId = objAttributeModel.AttributeTypeId };
+                jmdc.Attributes.InsertOnSubmit(objAttribute);
+                jmdc.SubmitChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;                
+            }
+           
+        }
+
         public void InsertUpdateJobMaterial(DataTable dtJobMaterial)
         {
             foreach(DataRow dr in dtJobMaterial.Rows)

@@ -19,6 +19,10 @@
                 <Separator />
                 <MenuItem Header="_Exit" Click="MenuExitItem_Click"/>
             </MenuItem>
+            <MenuItem Header="_Attribute">
+                <MenuItem Header="_AddAttribute" Click="MenuAddAttribute_Click"/>
+                <Separator />
+            </MenuItem>
         </Menu>
     </Canvas>
 

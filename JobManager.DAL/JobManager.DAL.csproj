@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="JobManager.cs">
+      <DependentUpon>JobManager.dbml</DependentUpon>
+    </Compile>
     <Compile Include="JobManager.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

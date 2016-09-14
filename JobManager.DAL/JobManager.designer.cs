@@ -30,6 +30,9 @@ namespace JobManager.DAL
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertAttribute(Attribute instance);
+    partial void UpdateAttribute(Attribute instance);
+    partial void DeleteAttribute(Attribute instance);
     #endregion
 		
 		public JobManagerDataContext() : 
@@ -60,6 +63,14 @@ namespace JobManager.DAL
 				base(connection, mappingSource)
 		{
 			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<Attribute> Attributes
+		{
+			get
+			{
+				return this.GetTable<Attribute>();
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMaterialsForJob")]
@@ -116,6 +127,216 @@ namespace JobManager.DAL
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), jobId);
 			return ((ISingleResult<GetJobDetailsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllAttributesTypes")]
+		public ISingleResult<GetAllAttributesTypesResult> GetAllAttributesTypes()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllAttributesTypesResult>)(result.ReturnValue));
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attribute")]
+	public partial class Attribute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _TypeId;
+		
+		private System.Nullable<int> _ParentId;
+		
+		private EntitySet<Attribute> _Attributes;
+		
+		private EntityRef<Attribute> _Attribute1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTypeIdChanging(int value);
+    partial void OnTypeIdChanged();
+    partial void OnParentIdChanging(System.Nullable<int> value);
+    partial void OnParentIdChanged();
+    #endregion
+		
+		public Attribute()
+		{
+			this._Attributes = new EntitySet<Attribute>(new Action<Attribute>(this.attach_Attributes), new Action<Attribute>(this.detach_Attributes));
+			this._Attribute1 = default(EntityRef<Attribute>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeId", DbType="Int NOT NULL")]
+		public int TypeId
+		{
+			get
+			{
+				return this._TypeId;
+			}
+			set
+			{
+				if ((this._TypeId != value))
+				{
+					this.OnTypeIdChanging(value);
+					this.SendPropertyChanging();
+					this._TypeId = value;
+					this.SendPropertyChanged("TypeId");
+					this.OnTypeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentId", DbType="Int")]
+		public System.Nullable<int> ParentId
+		{
+			get
+			{
+				return this._ParentId;
+			}
+			set
+			{
+				if ((this._ParentId != value))
+				{
+					if (this._Attribute1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParentId = value;
+					this.SendPropertyChanged("ParentId");
+					this.OnParentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_Attribute", Storage="_Attributes", ThisKey="Id", OtherKey="ParentId")]
+		public EntitySet<Attribute> Attributes
+		{
+			get
+			{
+				return this._Attributes;
+			}
+			set
+			{
+				this._Attributes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_Attribute", Storage="_Attribute1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
+		public Attribute Attribute1
+		{
+			get
+			{
+				return this._Attribute1.Entity;
+			}
+			set
+			{
+				Attribute previousValue = this._Attribute1.Entity;
+				if (((previousValue != value) 
+							|| (this._Attribute1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Attribute1.Entity = null;
+						previousValue.Attributes.Remove(this);
+					}
+					this._Attribute1.Entity = value;
+					if ((value != null))
+					{
+						value.Attributes.Add(this);
+						this._ParentId = value.Id;
+					}
+					else
+					{
+						this._ParentId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Attribute1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Attributes(Attribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute1 = this;
+		}
+		
+		private void detach_Attributes(Attribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute1 = null;
 		}
 	}
 	
@@ -504,6 +725,50 @@ namespace JobManager.DAL
 				if ((this._CreatedDate != value))
 				{
 					this._CreatedDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetAllAttributesTypesResult
+	{
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		public GetAllAttributesTypesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL")]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this._Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
 				}
 			}
 		}

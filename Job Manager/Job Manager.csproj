@@ -59,7 +59,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Attribute.xaml.cs">
+      <DependentUpon>Attribute.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\AttributeService.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AttributeViewModel.cs" />
+    <Compile Include="ViewModel\IView.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="UserIdentity\AnonymousIdentity.cs" />
+    <Compile Include="UserIdentity\AuthenticationService.cs" />
+    <Compile Include="UserIdentity\CustomIdentity.cs" />
+    <Compile Include="UserIdentity\CustomPrincipal.cs" />
+    <Compile Include="UserIdentity\IAuthenticationService.cs" />
+    <Compile Include="ViewModel\AuthenticationViewModel.cs" />
+    <Compile Include="ViewModel\DelegateCommand.cs" />
     <Page Include="AddMaterialToJob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Attribute.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,6 +99,10 @@
       <DependentUpon>JobDetails.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +148,7 @@
       <Name>JobManager.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

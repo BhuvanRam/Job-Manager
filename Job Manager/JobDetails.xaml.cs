@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JobManager.DAL;
 using JobManager.Model;
+using System.Security.Permissions;
 
 namespace Job_Manager
 {
@@ -21,6 +22,7 @@ namespace Job_Manager
     /// Verifying the GIT checkin
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [PrincipalPermission(SecurityAction.Demand, Role = "Administrators")]
     public partial class JobDetails : Window
     {
         private int jobId;
