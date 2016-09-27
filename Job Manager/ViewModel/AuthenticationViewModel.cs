@@ -15,6 +15,7 @@ namespace Job_Manager.ViewModel
 {
     public class AuthenticationViewModel : INotifyPropertyChanged, IViewModel
     {
+
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
         private readonly DelegateCommand _logoutCommand;

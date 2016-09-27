@@ -62,6 +62,9 @@
     <Compile Include="Attribute.xaml.cs">
       <DependentUpon>Attribute.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AttributeMainScreen.xaml.cs">
+      <DependentUpon>AttributeMainScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\AttributeService.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -81,6 +84,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Attribute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AttributeMainScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -120,6 +120,13 @@ namespace JobManager.DAL
             return attribValues;            
         }
 
+        public List<AttributeModel> GetAllAttributes()
+        {
+            List<AttributeModel> lAttributes = new List<AttributeModel>();
+            var result = jmdc.Attributes.Select(p => new { AttributeName = p.Name,AttributeId = p.Id});
+            return lAttributes;
+        }
+
         public bool CreateAttribute(AttributeModel objAttributeModel)
         {
             try
@@ -147,6 +154,24 @@ namespace JobManager.DAL
         public void DeleteJobMaterial(int jobId,int materialId)
         {
             jmdc.DelJobMaterial(jobId, materialId);
+        }
+
+        public List<AttributeGridModel> GetAttributeGridDetails()
+        {
+            List<AttributeGridModel> lAttributeGridModel = new List<AttributeGridModel>();
+            var resultGrid = jmdc.GetAllAttributesGrid();
+            foreach (var item in resultGrid)
+            {
+                AttributeGridModel objAttributeGridModel = new AttributeGridModel();
+                objAttributeGridModel.AttributeId = item.AttributeId;
+                objAttributeGridModel.AttributeName = item.AttributeName;
+                objAttributeGridModel.AttributeParentName = item.AttributeParentName;
+                objAttributeGridModel.AttributeValueId = item.AttributeValueId;
+                objAttributeGridModel.AttributeValueName = item.AttributeValueName;
+                objAttributeGridModel.AttributeValueParentName = item.AttributeValueParentName;
+                lAttributeGridModel.Add(objAttributeGridModel);
+            }
+            return lAttributeGridModel;
         }
     }
 }

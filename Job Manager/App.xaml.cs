@@ -28,13 +28,16 @@ namespace Job_Manager
             //Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Show the login view and Dependency Injection
             //AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
-            //var loginWindow = new LoginWindow(viewModel) { };            
-            //viewModel.OnRequestClose += (s, evt) => loginWindow.Close();            
+            //var loginWindow = new LoginWindow(viewModel) { };
+            //viewModel.OnRequestClose += (s, evt) => loginWindow.Close();
             //loginWindow.ShowDialog();
 
-            AttributeViewModel objAttributeViewModel = new AttributeViewModel();
-            var attributeView = new Attribute(objAttributeViewModel);
-            attributeView.ShowDialog();
+            //AttributeViewModel objAttributeViewModel = new AttributeViewModel();
+            //var attributeView = new Attribute(objAttributeViewModel);
+            //attributeView.ShowDialog();
+
+            AttributeMainScreen objAttributeMainScreen = new AttributeMainScreen();
+            objAttributeMainScreen.ShowDialog();
         }
     }
 }

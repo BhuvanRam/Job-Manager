@@ -135,6 +135,13 @@ namespace JobManager.DAL
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<GetAllAttributesTypesResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllAttributesGrid")]
+		public ISingleResult<GetAllAttributesGridResult> GetAllAttributesGrid()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllAttributesGridResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attribute")]
@@ -769,6 +776,122 @@ namespace JobManager.DAL
 				if ((this._Name != value))
 				{
 					this._Name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetAllAttributesGridResult
+	{
+		
+		private int _AttributeId;
+		
+		private string _AttributeName;
+		
+		private string _AttributeParentName;
+		
+		private int _AttributeValueId;
+		
+		private string _AttributeValueName;
+		
+		private string _AttributeValueParentName;
+		
+		public GetAllAttributesGridResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeId", DbType="Int NOT NULL")]
+		public int AttributeId
+		{
+			get
+			{
+				return this._AttributeId;
+			}
+			set
+			{
+				if ((this._AttributeId != value))
+				{
+					this._AttributeId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeName", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string AttributeName
+		{
+			get
+			{
+				return this._AttributeName;
+			}
+			set
+			{
+				if ((this._AttributeName != value))
+				{
+					this._AttributeName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeParentName", DbType="VarChar(200)")]
+		public string AttributeParentName
+		{
+			get
+			{
+				return this._AttributeParentName;
+			}
+			set
+			{
+				if ((this._AttributeParentName != value))
+				{
+					this._AttributeParentName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeValueId", DbType="Int NOT NULL")]
+		public int AttributeValueId
+		{
+			get
+			{
+				return this._AttributeValueId;
+			}
+			set
+			{
+				if ((this._AttributeValueId != value))
+				{
+					this._AttributeValueId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeValueName", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string AttributeValueName
+		{
+			get
+			{
+				return this._AttributeValueName;
+			}
+			set
+			{
+				if ((this._AttributeValueName != value))
+				{
+					this._AttributeValueName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeValueParentName", DbType="VarChar(200)")]
+		public string AttributeValueParentName
+		{
+			get
+			{
+				return this._AttributeValueParentName;
+			}
+			set
+			{
+				if ((this._AttributeValueParentName != value))
+				{
+					this._AttributeValueParentName = value;
 				}
 			}
 		}

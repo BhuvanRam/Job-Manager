@@ -24,6 +24,8 @@ namespace Job_Manager.ViewModel
         private List<AttributeTypeModel> _lAttributeTypes;
         private AttributeTypeModel _selectedAttributeTypeItem;
 
+        private AttributeTypeModel _selectedEditAttributeTypeItem;
+
         DataAccess objDataAccess = new DataAccess();
         public AttributeViewModel()
         {
@@ -138,7 +140,18 @@ namespace Job_Manager.ViewModel
             }
         }
 
+        public AttributeTypeModel SelectedEditAttributeTypeItem
+        {
+            get
+            {
+                return _selectedEditAttributeTypeItem;
+            }
 
+            set
+            {
+                _selectedEditAttributeTypeItem = value;
+            }
+        }
 
         private void NotifyPropertyChanged(string propertyName)
         {

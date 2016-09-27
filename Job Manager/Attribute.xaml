@@ -7,27 +7,61 @@
         mc:Ignorable="d"
         Title="Attribute" Height="300" Width="300">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-        </Grid.RowDefinitions>
+        <TabControl x:Name="tabControl">
+            <TabItem Header="Enter New Attribute">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="5*"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-        <Label x:Name="lblAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
-        <TextBox x:Name="txtAttributeName" Grid.Column="1" Height="20" Width="120" Text="{Binding AttributeName}" ></TextBox>
+                    <Label x:Name="lblAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
+                    <TextBox x:Name="txtAttributeName" Grid.Column="1" Height="20" Width="120" Text="{Binding AttributeName}" ></TextBox>
 
-        <Label x:Name="lblAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
-        <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedAttributeTypeItem}"></ComboBox>
+                    <Label x:Name="lblAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
+                    <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedAttributeTypeItem}"></ComboBox>
 
-        <Button Grid.Row="2" Grid.Column="0" Content="Add Attribute" Width="80" Height="25" Command="{Binding CreateAttributeCommand}" IsEnabled="True"> </Button>
-        <Label x:Name="lblStatus" Content="{Binding AttributeResult}" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
-        
+                    <Button Grid.Row="2" Grid.Column="0" Content="Add Attribute" Width="80" Height="25" Command="{Binding CreateAttributeCommand}" IsEnabled="True"></Button>
+                    <Label x:Name="lblStatus" Content="{Binding AttributeResult}" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Modify Existing Attribute">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="5*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="lblEditAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
+                    <ComboBox x:Name="ddlEditAttributeName" Grid.Column="1" Height="25" Width="120"></ComboBox>
+                    
+                    <Label x:Name="lblEditAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
+                    <ComboBox x:Name="ddlEditAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedEditAttributeTypeItem}"></ComboBox>
+
+                    <Button Grid.Row="3" Grid.Column="0" Content="Modify Attribute" Width="100" Height="25" IsEnabled="True"></Button>
+                    <Button Grid.Row="3" Grid.Column="1" Content="Delete Attribute" Width="100" Height="25" IsEnabled="True"></Button>
+                    <Label x:Name="lblEditStatus" Grid.Row="4" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </Grid>
+    
     
 </Window>
