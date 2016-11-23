@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Job_Manager.ViewModel
         private readonly Action<object> _execute;
 
         public event EventHandler CanExecuteChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public DelegateCommand(Action<object> execute)
           : this(execute, null)
@@ -42,6 +44,11 @@ namespace Job_Manager.ViewModel
         {
             if (CanExecuteChanged != null)
                 CanExecuteChanged(this, EventArgs.Empty);
+        }
+
+        private void RaisePropertyChanged(String name)
+        {
+            if (this.PropertyChanged != null) this.PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

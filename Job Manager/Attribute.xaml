@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="Attribute" Height="300" Width="300">
+        Title="Attribute" Height="400" Width="500">
     <Grid>
         <TabControl x:Name="tabControl">
             <TabItem Header="Enter New Attribute">
@@ -16,46 +16,36 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1.1*"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
                         <RowDefinition Height="5*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
-                    <TextBox x:Name="txtAttributeName" Grid.Column="1" Height="20" Width="120" Text="{Binding AttributeName}" ></TextBox>
+                    <ComboBox x:Name="dAttributeName" Grid.Column="1" Width="120" Height="25" IsEditable="True" DisplayMemberPath="AttributeName" SelectedValuePath="AttributeId" SelectionChanged="dAttributeName_SelectionChanged"></ComboBox>
 
                     <Label x:Name="lblAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
-                    <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedAttributeTypeItem}"></ComboBox>
+                    <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" DisplayMemberPath="AttributeTypeName" SelectedValuePath="AttributeTypeId" SelectionChanged="ddlAttributeType_SelectionChanged"></ComboBox>
 
-                    <Button Grid.Row="2" Grid.Column="0" Content="Add Attribute" Width="80" Height="25" Command="{Binding CreateAttributeCommand}" IsEnabled="True"></Button>
+                    <Label x:Name="lblParentAttribute" Content="Parent Attribute" Grid.Row="2"></Label>
+                    <ComboBox x:Name="ddlParentAttributes" Grid.Row="2" Grid.Column="2" Width="120" Height="25" IsEditable="True"  DisplayMemberPath="AttributeName" SelectedItem="AttributeId" SelectionChanged="ddlParentAttributes_SelectionChanged"></ComboBox>
+                    <TextBox  x:Name="txtParentAttribute" Grid.Row="2" Grid.Column="2" Height="20"  Width="120"></TextBox>
+
+                    <Label x:Name="lblIsActive" Content="IsActive" Grid.Row="3"></Label>
+                    <CheckBox x:Name="bIsActive" IsEnabled="True" Grid.Row="3" Grid.Column="2" Margin="10 5 0 0"></CheckBox>
+
+                    <DataGrid x:Name="dGridNewAttributes" Grid.Row="4" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Attribute Value" Binding="{Binding ParentValue}" Width="100" CanUserSort="False"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Sub Attribute Value" Binding="{Binding CurrentAttribute}" Width="120" CanUserSort="False"></DataGridTextColumn>
+                            <DataGridComboBoxColumn x:Name="Parent_SubAtributeValue" DisplayMemberPath="AttributeName" CanUserSort="False" SelectedValuePath="AttributeId" SelectedItemBinding="{Binding ParentOfSubAttribute,Mode=TwoWay}"  Header="Parent of Sub Attribute Value" Width="*"></DataGridComboBoxColumn>                             
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Button Grid.Row="6" Grid.Column="0" Content="Add Attribute" Width="80" x:Name="bAddAttribute" Height="25" Click="bAddAttribute_Click" IsEnabled="True"></Button>
                     <Label x:Name="lblStatus" Content="{Binding AttributeResult}" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="Modify Existing Attribute">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="5*"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <Label x:Name="lblEditAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
-                    <ComboBox x:Name="ddlEditAttributeName" Grid.Column="1" Height="25" Width="120"></ComboBox>
-                    
-                    <Label x:Name="lblEditAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
-                    <ComboBox x:Name="ddlEditAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" ItemsSource="{Binding LAttributeTypes}" DisplayMemberPath="AttributeTypeName" SelectedItem="{Binding SelectedEditAttributeTypeItem}"></ComboBox>
-
-                    <Button Grid.Row="3" Grid.Column="0" Content="Modify Attribute" Width="100" Height="25" IsEnabled="True"></Button>
-                    <Button Grid.Row="3" Grid.Column="1" Content="Delete Attribute" Width="100" Height="25" IsEnabled="True"></Button>
-                    <Label x:Name="lblEditStatus" Grid.Row="4" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
 
                 </Grid>
             </TabItem>

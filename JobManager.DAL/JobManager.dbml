@@ -7,7 +7,46 @@
       <Column Name="TypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Attribute_Attribute" Member="Attributes" ThisKey="Id" OtherKey="ParentId" Type="Attribute" />
+      <Association Name="Attribute_AttributeValue" Member="AttributeValues" ThisKey="Id" OtherKey="AttributeId" Type="AttributeValue" />
+      <Association Name="Attribute_MaterialAttribute" Member="MaterialAttributes" ThisKey="Id" OtherKey="AttributeId" Type="MaterialAttribute" />
       <Association Name="Attribute_Attribute" Member="Attribute1" ThisKey="ParentId" OtherKey="Id" Type="Attribute" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AttributeValue" Member="AttributeValues">
+    <Type Name="AttributeValue">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="AttributeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Attribute_AttributeValue" Member="Attribute" ThisKey="AttributeId" OtherKey="Id" Type="Attribute" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Material" Member="Materials">
+    <Type Name="Material">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Material_MaterialAttribute" Member="MaterialAttributes" ThisKey="Id" OtherKey="MaterialId" Type="MaterialAttribute" />
+      <Association Name="MaterialType_Material" Member="MaterialType" ThisKey="TypeId" OtherKey="Id" Type="MaterialType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MaterialAttributes" Member="MaterialAttributes">
+    <Type Name="MaterialAttribute">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaterialId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AttributeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SortOder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsRequired" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Attribute_MaterialAttribute" Member="Attribute" ThisKey="AttributeId" OtherKey="Id" Type="Attribute" IsForeignKey="true" />
+      <Association Name="Material_MaterialAttribute" Member="Material" ThisKey="MaterialId" OtherKey="Id" Type="Material" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MaterialType" Member="MaterialTypes">
+    <Type Name="MaterialType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="MaterialType_Material" Member="Materials" ThisKey="Id" OtherKey="TypeId" Type="Material" />
     </Type>
   </Table>
   <Function Name="dbo.GetMaterialsForJob" Method="GetMaterialsForJob">

@@ -42,7 +42,7 @@ namespace Job_Manager.ViewModel
         private void CreateAttributeMethod(object obj)
         {
             AttributeModel objAttributeModel = new AttributeModel() { AttributeName = this.AttributeName, AttributeTypeId = this.SelectedAttributeTypeItem.AttributeTypeId };
-            isAttributeCreated = objDataAccess.CreateAttribute(objAttributeModel);
+            isAttributeCreated = objDataAccess.AddAttribute(objAttributeModel);
             if (isAttributeCreated)
                 AttributeResult = "Attribute created successfully";
             else
@@ -137,6 +137,7 @@ namespace Job_Manager.ViewModel
             set
             {
                 _selectedAttributeTypeItem = value;
+                NotifyPropertyChanged("SelectedAttributeTypeItem");
             }
         }
 
@@ -150,6 +151,7 @@ namespace Job_Manager.ViewModel
             set
             {
                 _selectedEditAttributeTypeItem = value;
+                
             }
         }
 

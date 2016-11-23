@@ -1,0 +1,24 @@
+﻿<Window x:Class="Job_Manager.MaterialMainScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="Material Main Screen" Height="400" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button x:Name="bAddMaterial" Width="100" Height="20" Content="Add Material" HorizontalAlignment="Left" Click="bAddMaterial_Click"></Button>
+        <DataGrid x:Name="dMainMaterialGrid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Material.Name}" Width="0.25*" Header="Material"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Material.MaterialType.Name}" Width="0.25*" Header="Material Type"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Attribute.Name}" Width="0.25*" Header="Attribute"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding SortOder}" Width="0.25*" Header="Sort Order"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

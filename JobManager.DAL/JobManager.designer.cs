@@ -33,6 +33,18 @@ namespace JobManager.DAL
     partial void InsertAttribute(Attribute instance);
     partial void UpdateAttribute(Attribute instance);
     partial void DeleteAttribute(Attribute instance);
+    partial void InsertAttributeValue(AttributeValue instance);
+    partial void UpdateAttributeValue(AttributeValue instance);
+    partial void DeleteAttributeValue(AttributeValue instance);
+    partial void InsertMaterial(Material instance);
+    partial void UpdateMaterial(Material instance);
+    partial void DeleteMaterial(Material instance);
+    partial void InsertMaterialAttribute(MaterialAttribute instance);
+    partial void UpdateMaterialAttribute(MaterialAttribute instance);
+    partial void DeleteMaterialAttribute(MaterialAttribute instance);
+    partial void InsertMaterialType(MaterialType instance);
+    partial void UpdateMaterialType(MaterialType instance);
+    partial void DeleteMaterialType(MaterialType instance);
     #endregion
 		
 		public JobManagerDataContext() : 
@@ -70,6 +82,38 @@ namespace JobManager.DAL
 			get
 			{
 				return this.GetTable<Attribute>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AttributeValue> AttributeValues
+		{
+			get
+			{
+				return this.GetTable<AttributeValue>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Material> Materials
+		{
+			get
+			{
+				return this.GetTable<Material>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MaterialAttribute> MaterialAttributes
+		{
+			get
+			{
+				return this.GetTable<MaterialAttribute>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MaterialType> MaterialTypes
+		{
+			get
+			{
+				return this.GetTable<MaterialType>();
 			}
 		}
 		
@@ -160,6 +204,10 @@ namespace JobManager.DAL
 		
 		private EntitySet<Attribute> _Attributes;
 		
+		private EntitySet<AttributeValue> _AttributeValues;
+		
+		private EntitySet<MaterialAttribute> _MaterialAttributes;
+		
 		private EntityRef<Attribute> _Attribute1;
 		
     #region Extensibility Method Definitions
@@ -179,6 +227,8 @@ namespace JobManager.DAL
 		public Attribute()
 		{
 			this._Attributes = new EntitySet<Attribute>(new Action<Attribute>(this.attach_Attributes), new Action<Attribute>(this.detach_Attributes));
+			this._AttributeValues = new EntitySet<AttributeValue>(new Action<AttributeValue>(this.attach_AttributeValues), new Action<AttributeValue>(this.detach_AttributeValues));
+			this._MaterialAttributes = new EntitySet<MaterialAttribute>(new Action<MaterialAttribute>(this.attach_MaterialAttributes), new Action<MaterialAttribute>(this.detach_MaterialAttributes));
 			this._Attribute1 = default(EntityRef<Attribute>);
 			OnCreated();
 		}
@@ -280,6 +330,32 @@ namespace JobManager.DAL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_AttributeValue", Storage="_AttributeValues", ThisKey="Id", OtherKey="AttributeId")]
+		public EntitySet<AttributeValue> AttributeValues
+		{
+			get
+			{
+				return this._AttributeValues;
+			}
+			set
+			{
+				this._AttributeValues.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_MaterialAttribute", Storage="_MaterialAttributes", ThisKey="Id", OtherKey="AttributeId")]
+		public EntitySet<MaterialAttribute> MaterialAttributes
+		{
+			get
+			{
+				return this._MaterialAttributes;
+			}
+			set
+			{
+				this._MaterialAttributes.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_Attribute", Storage="_Attribute1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
 		public Attribute Attribute1
 		{
@@ -344,6 +420,762 @@ namespace JobManager.DAL
 		{
 			this.SendPropertyChanging();
 			entity.Attribute1 = null;
+		}
+		
+		private void attach_AttributeValues(AttributeValue entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute = this;
+		}
+		
+		private void detach_AttributeValues(AttributeValue entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute = null;
+		}
+		
+		private void attach_MaterialAttributes(MaterialAttribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute = this;
+		}
+		
+		private void detach_MaterialAttributes(MaterialAttribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attribute = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AttributeValue")]
+	public partial class AttributeValue : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _AttributeId;
+		
+		private System.Nullable<int> _ParentValue;
+		
+		private EntityRef<Attribute> _Attribute;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnAttributeIdChanging(int value);
+    partial void OnAttributeIdChanged();
+    partial void OnParentValueChanging(System.Nullable<int> value);
+    partial void OnParentValueChanged();
+    #endregion
+		
+		public AttributeValue()
+		{
+			this._Attribute = default(EntityRef<Attribute>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeId", DbType="Int NOT NULL")]
+		public int AttributeId
+		{
+			get
+			{
+				return this._AttributeId;
+			}
+			set
+			{
+				if ((this._AttributeId != value))
+				{
+					if (this._Attribute.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttributeIdChanging(value);
+					this.SendPropertyChanging();
+					this._AttributeId = value;
+					this.SendPropertyChanged("AttributeId");
+					this.OnAttributeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentValue", DbType="Int")]
+		public System.Nullable<int> ParentValue
+		{
+			get
+			{
+				return this._ParentValue;
+			}
+			set
+			{
+				if ((this._ParentValue != value))
+				{
+					this.OnParentValueChanging(value);
+					this.SendPropertyChanging();
+					this._ParentValue = value;
+					this.SendPropertyChanged("ParentValue");
+					this.OnParentValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_AttributeValue", Storage="_Attribute", ThisKey="AttributeId", OtherKey="Id", IsForeignKey=true)]
+		public Attribute Attribute
+		{
+			get
+			{
+				return this._Attribute.Entity;
+			}
+			set
+			{
+				Attribute previousValue = this._Attribute.Entity;
+				if (((previousValue != value) 
+							|| (this._Attribute.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Attribute.Entity = null;
+						previousValue.AttributeValues.Remove(this);
+					}
+					this._Attribute.Entity = value;
+					if ((value != null))
+					{
+						value.AttributeValues.Add(this);
+						this._AttributeId = value.Id;
+					}
+					else
+					{
+						this._AttributeId = default(int);
+					}
+					this.SendPropertyChanged("Attribute");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Material")]
+	public partial class Material : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private bool _IsActive;
+		
+		private int _TypeId;
+		
+		private EntitySet<MaterialAttribute> _MaterialAttributes;
+		
+		private EntityRef<MaterialType> _MaterialType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnIsActiveChanging(bool value);
+    partial void OnIsActiveChanged();
+    partial void OnTypeIdChanging(int value);
+    partial void OnTypeIdChanged();
+    #endregion
+		
+		public Material()
+		{
+			this._MaterialAttributes = new EntitySet<MaterialAttribute>(new Action<MaterialAttribute>(this.attach_MaterialAttributes), new Action<MaterialAttribute>(this.detach_MaterialAttributes));
+			this._MaterialType = default(EntityRef<MaterialType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this.OnIsActiveChanging(value);
+					this.SendPropertyChanging();
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeId", DbType="Int NOT NULL")]
+		public int TypeId
+		{
+			get
+			{
+				return this._TypeId;
+			}
+			set
+			{
+				if ((this._TypeId != value))
+				{
+					if (this._MaterialType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTypeIdChanging(value);
+					this.SendPropertyChanging();
+					this._TypeId = value;
+					this.SendPropertyChanged("TypeId");
+					this.OnTypeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Material_MaterialAttribute", Storage="_MaterialAttributes", ThisKey="Id", OtherKey="MaterialId")]
+		public EntitySet<MaterialAttribute> MaterialAttributes
+		{
+			get
+			{
+				return this._MaterialAttributes;
+			}
+			set
+			{
+				this._MaterialAttributes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MaterialType_Material", Storage="_MaterialType", ThisKey="TypeId", OtherKey="Id", IsForeignKey=true)]
+		public MaterialType MaterialType
+		{
+			get
+			{
+				return this._MaterialType.Entity;
+			}
+			set
+			{
+				MaterialType previousValue = this._MaterialType.Entity;
+				if (((previousValue != value) 
+							|| (this._MaterialType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MaterialType.Entity = null;
+						previousValue.Materials.Remove(this);
+					}
+					this._MaterialType.Entity = value;
+					if ((value != null))
+					{
+						value.Materials.Add(this);
+						this._TypeId = value.Id;
+					}
+					else
+					{
+						this._TypeId = default(int);
+					}
+					this.SendPropertyChanged("MaterialType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MaterialAttributes(MaterialAttribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Material = this;
+		}
+		
+		private void detach_MaterialAttributes(MaterialAttribute entity)
+		{
+			this.SendPropertyChanging();
+			entity.Material = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MaterialAttributes")]
+	public partial class MaterialAttribute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _MaterialId;
+		
+		private int _AttributeId;
+		
+		private int _SortOder;
+		
+		private bool _IsRequired;
+		
+		private EntityRef<Attribute> _Attribute;
+		
+		private EntityRef<Material> _Material;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnMaterialIdChanging(int value);
+    partial void OnMaterialIdChanged();
+    partial void OnAttributeIdChanging(int value);
+    partial void OnAttributeIdChanged();
+    partial void OnSortOderChanging(int value);
+    partial void OnSortOderChanged();
+    partial void OnIsRequiredChanging(bool value);
+    partial void OnIsRequiredChanged();
+    #endregion
+		
+		public MaterialAttribute()
+		{
+			this._Attribute = default(EntityRef<Attribute>);
+			this._Material = default(EntityRef<Material>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaterialId", DbType="Int NOT NULL")]
+		public int MaterialId
+		{
+			get
+			{
+				return this._MaterialId;
+			}
+			set
+			{
+				if ((this._MaterialId != value))
+				{
+					if (this._Material.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMaterialIdChanging(value);
+					this.SendPropertyChanging();
+					this._MaterialId = value;
+					this.SendPropertyChanged("MaterialId");
+					this.OnMaterialIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttributeId", DbType="Int NOT NULL")]
+		public int AttributeId
+		{
+			get
+			{
+				return this._AttributeId;
+			}
+			set
+			{
+				if ((this._AttributeId != value))
+				{
+					if (this._Attribute.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttributeIdChanging(value);
+					this.SendPropertyChanging();
+					this._AttributeId = value;
+					this.SendPropertyChanged("AttributeId");
+					this.OnAttributeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOder", DbType="Int NOT NULL")]
+		public int SortOder
+		{
+			get
+			{
+				return this._SortOder;
+			}
+			set
+			{
+				if ((this._SortOder != value))
+				{
+					this.OnSortOderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOder = value;
+					this.SendPropertyChanged("SortOder");
+					this.OnSortOderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRequired", DbType="Bit NOT NULL")]
+		public bool IsRequired
+		{
+			get
+			{
+				return this._IsRequired;
+			}
+			set
+			{
+				if ((this._IsRequired != value))
+				{
+					this.OnIsRequiredChanging(value);
+					this.SendPropertyChanging();
+					this._IsRequired = value;
+					this.SendPropertyChanged("IsRequired");
+					this.OnIsRequiredChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attribute_MaterialAttribute", Storage="_Attribute", ThisKey="AttributeId", OtherKey="Id", IsForeignKey=true)]
+		public Attribute Attribute
+		{
+			get
+			{
+				return this._Attribute.Entity;
+			}
+			set
+			{
+				Attribute previousValue = this._Attribute.Entity;
+				if (((previousValue != value) 
+							|| (this._Attribute.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Attribute.Entity = null;
+						previousValue.MaterialAttributes.Remove(this);
+					}
+					this._Attribute.Entity = value;
+					if ((value != null))
+					{
+						value.MaterialAttributes.Add(this);
+						this._AttributeId = value.Id;
+					}
+					else
+					{
+						this._AttributeId = default(int);
+					}
+					this.SendPropertyChanged("Attribute");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Material_MaterialAttribute", Storage="_Material", ThisKey="MaterialId", OtherKey="Id", IsForeignKey=true)]
+		public Material Material
+		{
+			get
+			{
+				return this._Material.Entity;
+			}
+			set
+			{
+				Material previousValue = this._Material.Entity;
+				if (((previousValue != value) 
+							|| (this._Material.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Material.Entity = null;
+						previousValue.MaterialAttributes.Remove(this);
+					}
+					this._Material.Entity = value;
+					if ((value != null))
+					{
+						value.MaterialAttributes.Add(this);
+						this._MaterialId = value.Id;
+					}
+					else
+					{
+						this._MaterialId = default(int);
+					}
+					this.SendPropertyChanged("Material");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MaterialType")]
+	public partial class MaterialType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private EntitySet<Material> _Materials;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public MaterialType()
+		{
+			this._Materials = new EntitySet<Material>(new Action<Material>(this.attach_Materials), new Action<Material>(this.detach_Materials));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MaterialType_Material", Storage="_Materials", ThisKey="Id", OtherKey="TypeId")]
+		public EntitySet<Material> Materials
+		{
+			get
+			{
+				return this._Materials;
+			}
+			set
+			{
+				this._Materials.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Materials(Material entity)
+		{
+			this.SendPropertyChanging();
+			entity.MaterialType = this;
+		}
+		
+		private void detach_Materials(Material entity)
+		{
+			this.SendPropertyChanging();
+			entity.MaterialType = null;
 		}
 	}
 	

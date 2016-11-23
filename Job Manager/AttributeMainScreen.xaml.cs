@@ -37,9 +37,12 @@ namespace Job_Manager
 
         private void bAddAttribute_Click(object sender, RoutedEventArgs e)
         {
-            AttributeViewModel objAttributeViewModel = new AttributeViewModel();
-            var attributeView = new Attribute(objAttributeViewModel);
-            attributeView.ShowDialog();
+            //AttributeViewModel objAttributeViewModel = new AttributeViewModel();
+            //var attributeView = new Attribute(objAttributeViewModel);
+            //attributeView.ShowDialog();
+
+            Attribute_New objAttribute_New = new Attribute_New();
+            objAttribute_New.ShowDialog();
         }
     }
 }

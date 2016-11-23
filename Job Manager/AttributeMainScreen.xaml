@@ -12,11 +12,11 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label x:Name="lblHeading"  Content="Attribute List" Width="60" HorizontalAlignment="Left"></Label>
-            <Button x:Name="bAddAttribute" Content="Add Attribute" Width="100" HorizontalAlignment="Left" Click="bAddAttribute_Click"></Button>
+            <Button x:Name="bAddAttribute" Content="Add Attribute" Width="100" HorizontalAlignment="Left" Click="bAddAttribute_Click"/>
+            <Label x:Name="lblHeading"  Content="Attribute List" Width="60" HorizontalAlignment="Left"/>
         </StackPanel>
        
-        <DataGrid x:Name="dgAttributeGrid" Grid.Row="1" >
+        <DataGrid x:Name="dgAttributeGrid" Grid.Row="1" IsReadOnly="true">
         </DataGrid>
     </Grid>
 </Window>

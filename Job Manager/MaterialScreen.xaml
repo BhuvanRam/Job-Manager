@@ -1,0 +1,88 @@
+﻿<Window x:Class="Job_Manager.MaterialScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="MaterialScreen" Height="500" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.30*"></RowDefinition>
+            <RowDefinition Height="0.30*"></RowDefinition>
+            <RowDefinition Height="0.50*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.50*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.50*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="labelMaterialName" Content="Material Name" Grid.Row="0" VerticalAlignment="Center"></Label>
+        <ComboBox x:Name="dMaterials" IsEditable="True" Grid.Column="1" Width="150" Height="30" HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="dMaterials_Selected"></ComboBox>
+        <Label x:Name="labelMaterialType" Grid.Row="1" Content="Material Type" VerticalAlignment="Center"></Label>
+        <ComboBox x:Name="dMaterialType" Grid.Column="1" Grid.Row="1" Width="150" Height="30" HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Id"></ComboBox>
+        <Label x:Name="labelIsEnable" Content="Is Enable" Grid.Row="2" VerticalAlignment="Center"></Label>
+        <CheckBox x:Name="cIsEnable" Grid.Row="2" Grid.Column="1" Width="20" Height="15" HorizontalAlignment="Left"></CheckBox>
+
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"  Grid.Row="3" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <Label x:Name="labelAttributes" VerticalAlignment="Center"  Content="Available Attributes"></Label>
+                <DataGrid x:Name="dAllAttributes"  AutoGenerateColumns="False" Height="240">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn x:Name="cIsSelected" Binding="{Binding IsSelected}" Header="Select"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.25*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            </StackPanel>
+            <Button x:Name="bAddAttributesToBelowGridToSave" Grid.Column="1" Width="60" Height="30" Content=" --->>>> " Click="bAddAttributesToBelowGridToSave_Click"></Button>
+
+            <StackPanel Grid.Column="2">
+                <Label x:Name="labelSelectedAttributes" VerticalAlignment="Center"  Content="Selected Attributes"></Label>
+                <DataGrid x:Name="dSelectedAttributes"   AutoGenerateColumns="False" Height="240">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.70*"></DataGridTextColumn>
+
+                        <DataGridTemplateColumn Header="Delete" Width="0.20*">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="dSelectedAttributesEventSetter_OnHandlerDelete"></EventSetter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="Icons/Delete.png" MinWidth="20" MaxWidth="20"></Image>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+
+        
+            <Grid Grid.ColumnSpan="2"  Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <Button x:Name="bSave" Grid.Column="0" Content="Save Material" Height="25" Width="100" Click="bSave_Click"></Button>
+            <Button x:Name="bDelete" Grid.Column="1" Content="Delete Material" Height="25" Width="100"></Button>
+            <Button x:Name="bCleart" Grid.Column="2" HorizontalAlignment="Left" Content="Clear Material" Height="25" Width="100" Click="bCleart_Click"></Button>
+        </Grid>
+
+            
+        </Grid>
+
+        
+    
+</Window>

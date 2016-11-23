@@ -11,5 +11,6 @@ namespace JobManager.Model
         public int AttributeId { get; set; }
         public string AttributeName { get; set; }
         public int AttributeTypeId { get; set; }
+        public int ParentId { get; set; }
     }
 }

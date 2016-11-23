@@ -65,6 +65,15 @@
     <Compile Include="AttributeMainScreen.xaml.cs">
       <DependentUpon>AttributeMainScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Attribute_New.xaml.cs">
+      <DependentUpon>Attribute_New.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialMainScreen.xaml.cs">
+      <DependentUpon>MaterialMainScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialScreen.xaml.cs">
+      <DependentUpon>MaterialScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\AttributeService.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -91,6 +100,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Attribute_New.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JobDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,6 +124,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MaterialMainScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MaterialScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,7 +176,9 @@
       <Name>JobManager.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\Delete.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

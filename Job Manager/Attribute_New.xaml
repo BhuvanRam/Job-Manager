@@ -1,0 +1,83 @@
+﻿<Window x:Class="Job_Manager.Attribute_New"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="Create or Modify Attribute Screen" Height="400" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1.1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="lblAttributeName" Content="Attribute Name" Grid.Column="0"></Label>
+        <ComboBox x:Name="dAttributeName" Grid.Column="1" Width="120" Height="25" IsEditable="True" DisplayMemberPath="AttributeName" SelectedValuePath="AttributeId" SelectionChanged="dAttributeName_SelectionChanged"></ComboBox>
+
+        <Label x:Name="lblAttributeType" Content="Attribute Type" Grid.Row="1"></Label>
+        <ComboBox x:Name="ddlAttributeType" Grid.Row="1" Grid.Column="1" Height="25" Width="120" DisplayMemberPath="AttributeTypeName" SelectedValuePath="AttributeTypeId" SelectionChanged="ddlAttributeType_SelectionChanged"></ComboBox>
+
+        <Label x:Name="lblParentAttribute" Content="Parent Attribute" Grid.Row="2"></Label>
+        <ComboBox x:Name="ddlParentAttributes" Grid.Row="2" Grid.Column="1" Width="120" Height="25" IsEditable="True"  DisplayMemberPath="AttributeName" SelectedValuePath="AttributeId" SelectedItem="AttributeId" SelectionChanged="ddlParentAttributes_SelectionChanged"></ComboBox>
+        <TextBox  x:Name="txtParentAttribute" Grid.Row="2" Grid.Column="1" Height="20"  Width="120"></TextBox>
+
+        <Label x:Name="lblIsActive" Content="IsActive" Grid.Row="3"></Label>
+
+        <CheckBox x:Name="bIsActive" IsEnabled="True" Grid.Row="3" Grid.Column="1" Margin="10 5 0 0"></CheckBox>
+        
+        <!--<Button x:Name="bClear" Content="Clear" Grid.Column="2" Grid.Row="2" Width="50" Height="25" HorizontalAlignment="Left" Click="bClear_Click"></Button>-->
+        <TextBlock x:Name="bClear" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Hyperlink  Click="bClear_Click">
+                Clear Parent Value
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock x:Name="bEnterNewAttribute" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Hyperlink  Click="bEnterNewAttribute_Click">
+                Enter New Attribute
+            </Hyperlink>
+        </TextBlock>
+        
+        <DataGrid x:Name="dGridNewAttributes" Grid.Row="4" Grid.ColumnSpan="3" AutoGenerateColumns="False" CanUserDeleteRows="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header=" Attribute Value" Binding="{Binding Name}"  CanUserSort="False"></DataGridTextColumn>
+                <DataGridComboBoxColumn x:Name="dGridAttributesValues" Header="Parent Attribute Value" DisplayMemberPath="Name" TextBinding="{Binding Path=ParentAttributeValueModel.Name}" SelectedValuePath="Id"  CanUserSort="False" SelectedItemBinding="{Binding ParentAttributeValueModel}" >
+                </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Sub Attribute Value" Binding="{Binding AttributeName}" Width="*" CanUserSort="False"></DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Delete" Width="*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="Icons/Delete.png" MinWidth="20" MaxWidth="20"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+        <Button Grid.Row="6" Grid.Column="0" Content="Save" Width="80" x:Name="bAddAttribute" Height="25" IsEnabled="True" Click="bAddAttribute_Click"></Button>
+        <Button Grid.Row="6" Grid.Column="1" Width="120" x:Name="bDeleteAttribute" Height="25" IsEnabled="True" Click="bDeleteAttribute_Click" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Icons/Delete.png" Width="20" Height="20"/>
+                <TextBlock Text="Delete" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <Label x:Name="lblStatus" Content="{Binding AttributeResult}" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Foreground="Red"></Label>
+
+    </Grid>
+</Window>

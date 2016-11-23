@@ -53,7 +53,25 @@ namespace Job_Manager
 
         private void MenuAddAttribute_Click(object sender, RoutedEventArgs e)
         {
+            Attribute_New objAttribute_New = new Attribute_New();
+            objAttribute_New.ShowInTaskbar = false;
+            objAttribute_New.Owner = this;
+            objAttribute_New.ShowDialog();
+        }
+        private void MenuSearchAttribute_Click(object sender, RoutedEventArgs e)
+        {
+            AttributeMainScreen objAttribute = new AttributeMainScreen();
+            objAttribute.ShowInTaskbar = false;
+            objAttribute.Owner = this;
+            objAttribute.ShowDialog();
+        }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MaterialMainScreen objMaterialMainScreen = new MaterialMainScreen();
+            objMaterialMainScreen.ShowInTaskbar = false;
+            objMaterialMainScreen.Owner = this;
+            objMaterialMainScreen.ShowDialog();
         }
     }
 }

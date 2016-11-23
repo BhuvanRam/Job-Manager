@@ -20,7 +20,12 @@
                 <MenuItem Header="_Exit" Click="MenuExitItem_Click"/>
             </MenuItem>
             <MenuItem Header="_Attribute">
+                <MenuItem Header="_New" Click="MenuAddAttribute_Click"/>
+                <MenuItem Header="_Search" Click="MenuSearchAttribute_Click"/>
                 <MenuItem Header="_AddAttribute" Click="MenuAddAttribute_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Material">
+                <MenuItem Header="_AddMaterial" Click="MenuItem_Click"/>
                 <Separator />
             </MenuItem>
         </Menu>
