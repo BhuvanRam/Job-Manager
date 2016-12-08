@@ -49,6 +49,30 @@
       <Association Name="MaterialType_Material" Member="Materials" ThisKey="Id" OtherKey="TypeId" Type="Material" />
     </Type>
   </Table>
+  <Table Name="dbo.Vendor" Member="Vendors">
+    <Type Name="Vendor">
+      <Column Name="VendorId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="VendorCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="VendorName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Address1" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Address2" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="StateId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PIN" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="PhoneNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FaxNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ContactPerson" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="State_Vendor" Member="State" ThisKey="StateId" OtherKey="StateID" Type="State" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.State" Member="States">
+    <Type Name="State">
+      <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StateName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="State_Vendor" Member="Vendors" ThisKey="StateID" OtherKey="StateId" Type="Vendor" />
+    </Type>
+  </Table>
   <Function Name="dbo.GetMaterialsForJob" Method="GetMaterialsForJob">
     <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetMaterialsForJobResult">

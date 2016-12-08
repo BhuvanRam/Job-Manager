@@ -11,8 +11,10 @@ namespace JobManager.DAL
 {
     public class DataAccess
     {
-        JobManagerDataContext jmdc = new JobManagerDataContext();
-        public DataAccess() { }
+        JobManagerDataContext jmdc;
+        public DataAccess() {
+            jmdc = new JobManagerDataContext();
+        }
 
 
         public JobModel GetJobDetails(int jobId)
@@ -567,6 +569,121 @@ namespace JobManager.DAL
             return isUpdate;
         }
 
+        public List<State> GetStates()
+        {
+            List<State> lStates = new List<State>();
+            try
+            {
+                lStates = jmdc.States.Select(p => p).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return lStates;
+        }
+
+        public bool AddVendor(Vendor objInsertVendor)
+        {
+            bool isInserted = false;
+            try
+            {
+                jmdc.Vendors.InsertOnSubmit(objInsertVendor);
+                jmdc.SubmitChanges();                
+                isInserted = true;
+            }
+            catch (Exception)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+        }
+
+        public bool DeleteVendor(string VendorCode)
+        {
+            bool isDeleted = false;
+            try
+            {
+                Vendor objDeleteVendor = jmdc.Vendors.Where(p => p.VendorCode == VendorCode).Select(p => p).FirstOrDefault();
+                jmdc.Vendors.DeleteOnSubmit(objDeleteVendor);
+                jmdc.SubmitChanges();
+                isDeleted = true;
+            }
+            catch (Exception)
+            {
+                return isDeleted;
+            }
+            return isDeleted;
+        }
+
+        public bool UpdateVendor(Vendor objUpdateVendor)
+        {
+            bool isUpdated = false;
+            try
+            {
+                Vendor objVendor = jmdc.Vendors.Where(p => p.VendorCode == objUpdateVendor.VendorCode).Select(p => p).FirstOrDefault();
+                objVendor.VendorName = objUpdateVendor.VendorName;
+                objVendor.Address1 = objUpdateVendor.Address1;
+                objVendor.Address2 = objUpdateVendor.Address2;
+                objVendor.City = objUpdateVendor.City;
+                objVendor.StateId = objUpdateVendor.StateId;
+                objVendor.PIN = objUpdateVendor.PIN;
+                objVendor.PhoneNo = objUpdateVendor.PhoneNo;
+                objVendor.FaxNo = objUpdateVendor.FaxNo;
+                objVendor.Email = objUpdateVendor.Email;
+                objVendor.ContactPerson = objUpdateVendor.ContactPerson;
+                jmdc.SubmitChanges();
+                isUpdated = true;                
+            }
+            catch (Exception)
+            {
+                return isUpdated;                
+            }
+            return isUpdated;
+        }
+
+        public Vendor GetVendor(string VendorCode)
+        {
+            Vendor objGetVendor = new Vendor();
+            try
+            {
+                objGetVendor = jmdc.Vendors.Where(p => p.VendorCode == VendorCode).Select(p => p).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return objGetVendor;
+        }
+
+        public List<Vendor> GetVendorByName(string VendorName)
+        {
+            List<Vendor> lGetVendors = new List<Vendor>();
+            try
+            {
+                lGetVendors = jmdc.Vendors.Where(p => p.VendorName.Contains(VendorName)).Select(p => p).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return lGetVendors;
+        }
+
+        public List<Vendor> GetAllVendors()
+        {
+            List<Vendor> lGetVendors = new List<Vendor>();
+            try
+            {
+                lGetVendors = jmdc.Vendors.Select(p => p).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return lGetVendors;
+        }
     }
 
   

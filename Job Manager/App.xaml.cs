@@ -27,10 +27,10 @@ namespace Job_Manager
 
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Show the login view and Dependency Injection
-            AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
-            var loginWindow = new LoginWindow(viewModel) { };
-            viewModel.OnRequestClose += (s, evt) => loginWindow.Close();
-            loginWindow.ShowDialog();
+            //AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
+            //var loginWindow = new LoginWindow(viewModel) { };
+            //viewModel.OnRequestClose += (s, evt) => loginWindow.Close();
+            //loginWindow.ShowDialog();
 
             //AttributeViewModel objAttributeViewModel = new AttributeViewModel();
             //var attributeView = new Attribute(objAttributeViewModel);
@@ -45,6 +45,8 @@ namespace Job_Manager
             //MaterialScreen objMaterialMainScreen = new MaterialScreen();
             //objMaterialMainScreen.ShowDialog();
 
+            VendorScreen objVendor = new VendorScreen();
+            objVendor.ShowDialog();
         }
     }
 }

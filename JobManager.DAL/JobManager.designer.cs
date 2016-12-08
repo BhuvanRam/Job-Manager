@@ -45,6 +45,12 @@ namespace JobManager.DAL
     partial void InsertMaterialType(MaterialType instance);
     partial void UpdateMaterialType(MaterialType instance);
     partial void DeleteMaterialType(MaterialType instance);
+    partial void InsertVendor(Vendor instance);
+    partial void UpdateVendor(Vendor instance);
+    partial void DeleteVendor(Vendor instance);
+    partial void InsertState(State instance);
+    partial void UpdateState(State instance);
+    partial void DeleteState(State instance);
     #endregion
 		
 		public JobManagerDataContext() : 
@@ -114,6 +120,22 @@ namespace JobManager.DAL
 			get
 			{
 				return this.GetTable<MaterialType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Vendor> Vendors
+		{
+			get
+			{
+				return this.GetTable<Vendor>();
+			}
+		}
+		
+		public System.Data.Linq.Table<State> States
+		{
+			get
+			{
+				return this.GetTable<State>();
 			}
 		}
 		
@@ -1176,6 +1198,487 @@ namespace JobManager.DAL
 		{
 			this.SendPropertyChanging();
 			entity.MaterialType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Vendor")]
+	public partial class Vendor : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _VendorId;
+		
+		private string _VendorCode;
+		
+		private string _VendorName;
+		
+		private string _Address1;
+		
+		private string _Address2;
+		
+		private string _City;
+		
+		private System.Nullable<int> _StateId;
+		
+		private string _PIN;
+		
+		private string _PhoneNo;
+		
+		private string _FaxNo;
+		
+		private string _Email;
+		
+		private string _ContactPerson;
+		
+		private EntityRef<State> _State;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnVendorIdChanging(int value);
+    partial void OnVendorIdChanged();
+    partial void OnVendorCodeChanging(string value);
+    partial void OnVendorCodeChanged();
+    partial void OnVendorNameChanging(string value);
+    partial void OnVendorNameChanged();
+    partial void OnAddress1Changing(string value);
+    partial void OnAddress1Changed();
+    partial void OnAddress2Changing(string value);
+    partial void OnAddress2Changed();
+    partial void OnCityChanging(string value);
+    partial void OnCityChanged();
+    partial void OnStateIdChanging(System.Nullable<int> value);
+    partial void OnStateIdChanged();
+    partial void OnPINChanging(string value);
+    partial void OnPINChanged();
+    partial void OnPhoneNoChanging(string value);
+    partial void OnPhoneNoChanged();
+    partial void OnFaxNoChanging(string value);
+    partial void OnFaxNoChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnContactPersonChanging(string value);
+    partial void OnContactPersonChanged();
+    #endregion
+		
+		public Vendor()
+		{
+			this._State = default(EntityRef<State>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VendorId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int VendorId
+		{
+			get
+			{
+				return this._VendorId;
+			}
+			set
+			{
+				if ((this._VendorId != value))
+				{
+					this.OnVendorIdChanging(value);
+					this.SendPropertyChanging();
+					this._VendorId = value;
+					this.SendPropertyChanged("VendorId");
+					this.OnVendorIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VendorCode", DbType="NVarChar(50)")]
+		public string VendorCode
+		{
+			get
+			{
+				return this._VendorCode;
+			}
+			set
+			{
+				if ((this._VendorCode != value))
+				{
+					this.OnVendorCodeChanging(value);
+					this.SendPropertyChanging();
+					this._VendorCode = value;
+					this.SendPropertyChanged("VendorCode");
+					this.OnVendorCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VendorName", DbType="NVarChar(100)")]
+		public string VendorName
+		{
+			get
+			{
+				return this._VendorName;
+			}
+			set
+			{
+				if ((this._VendorName != value))
+				{
+					this.OnVendorNameChanging(value);
+					this.SendPropertyChanging();
+					this._VendorName = value;
+					this.SendPropertyChanged("VendorName");
+					this.OnVendorNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address1", DbType="NVarChar(500)")]
+		public string Address1
+		{
+			get
+			{
+				return this._Address1;
+			}
+			set
+			{
+				if ((this._Address1 != value))
+				{
+					this.OnAddress1Changing(value);
+					this.SendPropertyChanging();
+					this._Address1 = value;
+					this.SendPropertyChanged("Address1");
+					this.OnAddress1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address2", DbType="NVarChar(500)")]
+		public string Address2
+		{
+			get
+			{
+				return this._Address2;
+			}
+			set
+			{
+				if ((this._Address2 != value))
+				{
+					this.OnAddress2Changing(value);
+					this.SendPropertyChanging();
+					this._Address2 = value;
+					this.SendPropertyChanged("Address2");
+					this.OnAddress2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="NVarChar(100)")]
+		public string City
+		{
+			get
+			{
+				return this._City;
+			}
+			set
+			{
+				if ((this._City != value))
+				{
+					this.OnCityChanging(value);
+					this.SendPropertyChanging();
+					this._City = value;
+					this.SendPropertyChanged("City");
+					this.OnCityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateId", DbType="Int")]
+		public System.Nullable<int> StateId
+		{
+			get
+			{
+				return this._StateId;
+			}
+			set
+			{
+				if ((this._StateId != value))
+				{
+					if (this._State.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStateIdChanging(value);
+					this.SendPropertyChanging();
+					this._StateId = value;
+					this.SendPropertyChanged("StateId");
+					this.OnStateIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIN", DbType="NVarChar(100)")]
+		public string PIN
+		{
+			get
+			{
+				return this._PIN;
+			}
+			set
+			{
+				if ((this._PIN != value))
+				{
+					this.OnPINChanging(value);
+					this.SendPropertyChanging();
+					this._PIN = value;
+					this.SendPropertyChanged("PIN");
+					this.OnPINChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNo", DbType="NVarChar(20)")]
+		public string PhoneNo
+		{
+			get
+			{
+				return this._PhoneNo;
+			}
+			set
+			{
+				if ((this._PhoneNo != value))
+				{
+					this.OnPhoneNoChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneNo = value;
+					this.SendPropertyChanged("PhoneNo");
+					this.OnPhoneNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FaxNo", DbType="NVarChar(20)")]
+		public string FaxNo
+		{
+			get
+			{
+				return this._FaxNo;
+			}
+			set
+			{
+				if ((this._FaxNo != value))
+				{
+					this.OnFaxNoChanging(value);
+					this.SendPropertyChanging();
+					this._FaxNo = value;
+					this.SendPropertyChanged("FaxNo");
+					this.OnFaxNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(20)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactPerson", DbType="NVarChar(100)")]
+		public string ContactPerson
+		{
+			get
+			{
+				return this._ContactPerson;
+			}
+			set
+			{
+				if ((this._ContactPerson != value))
+				{
+					this.OnContactPersonChanging(value);
+					this.SendPropertyChanging();
+					this._ContactPerson = value;
+					this.SendPropertyChanged("ContactPerson");
+					this.OnContactPersonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="State_Vendor", Storage="_State", ThisKey="StateId", OtherKey="StateID", IsForeignKey=true)]
+		public State State
+		{
+			get
+			{
+				return this._State.Entity;
+			}
+			set
+			{
+				State previousValue = this._State.Entity;
+				if (((previousValue != value) 
+							|| (this._State.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._State.Entity = null;
+						previousValue.Vendors.Remove(this);
+					}
+					this._State.Entity = value;
+					if ((value != null))
+					{
+						value.Vendors.Add(this);
+						this._StateId = value.StateID;
+					}
+					else
+					{
+						this._StateId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("State");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.State")]
+	public partial class State : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _StateID;
+		
+		private string _StateName;
+		
+		private EntitySet<Vendor> _Vendors;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnStateIDChanging(int value);
+    partial void OnStateIDChanged();
+    partial void OnStateNameChanging(string value);
+    partial void OnStateNameChanged();
+    #endregion
+		
+		public State()
+		{
+			this._Vendors = new EntitySet<Vendor>(new Action<Vendor>(this.attach_Vendors), new Action<Vendor>(this.detach_Vendors));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int StateID
+		{
+			get
+			{
+				return this._StateID;
+			}
+			set
+			{
+				if ((this._StateID != value))
+				{
+					this.OnStateIDChanging(value);
+					this.SendPropertyChanging();
+					this._StateID = value;
+					this.SendPropertyChanged("StateID");
+					this.OnStateIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateName", DbType="NVarChar(100)")]
+		public string StateName
+		{
+			get
+			{
+				return this._StateName;
+			}
+			set
+			{
+				if ((this._StateName != value))
+				{
+					this.OnStateNameChanging(value);
+					this.SendPropertyChanging();
+					this._StateName = value;
+					this.SendPropertyChanged("StateName");
+					this.OnStateNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="State_Vendor", Storage="_Vendors", ThisKey="StateID", OtherKey="StateId")]
+		public EntitySet<Vendor> Vendors
+		{
+			get
+			{
+				return this._Vendors;
+			}
+			set
+			{
+				this._Vendors.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Vendors(Vendor entity)
+		{
+			this.SendPropertyChanging();
+			entity.State = this;
+		}
+		
+		private void detach_Vendors(Vendor entity)
+		{
+			this.SendPropertyChanging();
+			entity.State = null;
 		}
 	}
 	

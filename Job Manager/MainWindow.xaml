@@ -28,6 +28,10 @@
                 <MenuItem Header="_AddMaterial" Click="MenuItem_Click"/>
                 <Separator />
             </MenuItem>
+            <MenuItem Header="_Vendor">
+                <MenuItem Header="_AddVendor" Click="MenuItemAddVendor_Click"/>
+                <Separator />
+            </MenuItem>
         </Menu>
     </Canvas>
 

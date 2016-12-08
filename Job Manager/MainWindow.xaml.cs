@@ -73,5 +73,13 @@ namespace Job_Manager
             objMaterialMainScreen.Owner = this;
             objMaterialMainScreen.ShowDialog();
         }
+
+        private void MenuItemAddVendor_Click(object sender, RoutedEventArgs e)
+        {
+            VendorScreen objVendorScreen = new VendorScreen();
+            objVendorScreen.ShowInTaskbar = false;
+            objVendorScreen.Owner = this;
+            objVendorScreen.ShowDialog();
+        }
     }
 }

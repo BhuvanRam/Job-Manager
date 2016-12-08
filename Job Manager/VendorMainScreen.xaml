@@ -1,0 +1,82 @@
+﻿<Window x:Class="Job_Manager.VendorMainScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="VendorMainScreen" Height="300" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lSearchBy" Grid.Column="0" Content="Vendor Search By" VerticalAlignment="Center"></Label>
+            <ComboBox x:Name="cVendorFields" Grid.Column="1" Width="100" Height="30" SelectionChanged="cVendorFields_SelectionChanged"></ComboBox>
+            <Label x:Name="lEquals" Grid.Column="2" Content="=" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="txtSearch" Grid.Column="3" Height="30" Width="100"></TextBox>
+            <Button x:Name="VendorSearch" Content="Search Vendor" Grid.Column="4" Width="100" Height="30" Click="VendorSearch_Click"></Button>
+            <Button x:Name="VendorAdd" Content="Add New Vendor" Grid.Column="6" Width="100" Height="30" Click="VendorAdd_Click"></Button>
+        </Grid>
+
+        <DataGrid x:Name="dVendorGrid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding VendorCode}" Header="VendorCode"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding VendorName}" Header="VendorName"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Address1}" Header="Address1"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Address2}" Header="Address2"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding City}" Header="City"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding State.StateName}" Header="State"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PIN}" Header="Pin"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PhoneNo}" Header="PhoneNo"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding FaxNo}" Header="FaxNo"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Email}" Header="Email"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ContactPerson}" Header="ContactPerson"></DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Edit" Width="*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="Icons/Edit.jpg" MinWidth="20" MaxWidth="20"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Delete" Width="*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="Icons/Delete.png" MinWidth="20" MaxWidth="20"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</Window>
