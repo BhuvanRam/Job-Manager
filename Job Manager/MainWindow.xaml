@@ -32,6 +32,10 @@
                 <MenuItem Header="_AddVendor" Click="MenuItemAddVendor_Click"/>
                 <Separator />
             </MenuItem>
+            <MenuItem Header="_User">
+                <MenuItem Header="_UserManagement" Click="MenuItemUserManagement_Click"/>
+                <Separator />
+            </MenuItem>
         </Menu>
     </Canvas>
 

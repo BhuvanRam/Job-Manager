@@ -1,0 +1,68 @@
+﻿<Window x:Class="Job_Manager.UserMainScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="UserMainScreen" Style="{StaticResource Style_MainMaterialWindow}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid  Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="Icons/User_Management.png" HorizontalAlignment="Stretch"></Image>
+            <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Style_MainHeading}">
+                User Management
+            </Label>
+        </Grid>
+
+        <Button x:Name="bAddUser" Click="bAddUser_Click" Grid.Row="0" Grid.Column="1"  Style="{StaticResource Style_SaveEnhancement}">
+            Add User
+        </Button>
+        <DataGrid ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" x:Name="dUserGrid" Style="{StaticResource Style_MaterialDataGrid}" Grid.Row="2" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding UserID}" Width="0.25*" Header="UserId"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding UserName}" Width="0.25*" Header="User Name"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding EmailId}" Width="0.25*" Header="EmailId"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ROLE.RoleName}" Width="0.25*" Header="RoleName"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Edit" Width="0.2*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="Icons/Edit.jpg" MinWidth="20" MaxWidth="20"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Delete" Width="0.2*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="Icons/Delete.png" MinWidth="20" MaxWidth="20"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

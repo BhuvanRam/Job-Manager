@@ -73,6 +73,33 @@
       <Association Name="State_Vendor" Member="Vendors" ThisKey="StateID" OtherKey="StateId" Type="Vendor" />
     </Type>
   </Table>
+  <Table Name="dbo.Job" Member="Jobs">
+    <Type Name="Job">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ROLES" Member="ROLEs">
+    <Type Name="ROLE">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="ROLE_USER" Member="USERs" ThisKey="RoleID" OtherKey="RoleId" Type="USER" />
+    </Type>
+  </Table>
+  <Table Name="dbo.USERS" Member="USERs">
+    <Type Name="USER">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="ConfirmPassword" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="ROLE_USER" Member="ROLE" ThisKey="RoleId" OtherKey="RoleID" Type="ROLE" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.GetMaterialsForJob" Method="GetMaterialsForJob">
     <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetMaterialsForJobResult">
@@ -127,14 +154,6 @@
       <Column Name="Attributes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetJobDetails" Method="GetJobDetails">
-    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetJobDetailsResult">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.GetAllAttributesTypes" Method="GetAllAttributesTypes">
     <ElementType Name="GetAllAttributesTypesResult">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -150,5 +169,26 @@
       <Column Name="AttributeValueName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="AttributeValueParentName" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.GetJobStatuses" Method="GetJobStatuses">
+    <ElementType Name="GetJobStatusesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetJobDetails" Method="GetJobDetails">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobDetailsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.UPDJobDetails" Method="UPDJobDetails">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="StatusId" Parameter="statusId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
   </Function>
 </Database>

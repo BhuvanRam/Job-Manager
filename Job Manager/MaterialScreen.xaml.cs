@@ -25,6 +25,8 @@ namespace Job_Manager
         public List<MaterialGridAttribute> lAttributeModels { get; set; }
         public List<MaterialGridAttribute> lSelectedModels { get; set; }
 
+      
+       
         public MaterialScreen()
         {
             InitializeComponent();
@@ -33,6 +35,8 @@ namespace Job_Manager
             LoadAttributes();
         }
         
+     
+
         public void LoadMaterials()
         {
             List<Material> lMaterials = objDataAccess.GetMaterials();
@@ -87,6 +91,8 @@ namespace Job_Manager
             }              
         }
 
+      
+
         private void bAddAttributesToBelowGridToSave_Click(object sender, RoutedEventArgs e)
         {
             lAttributeModels = (List<MaterialGridAttribute>)dAllAttributes.ItemsSource;
@@ -113,37 +119,49 @@ namespace Job_Manager
         private void dMaterials_Selected(object sender, RoutedEventArgs e)
         {
             int iMaterialId = Convert.ToInt32(dMaterials.SelectedValue);
+            List<MaterialAttribute> lSelectedMaterialAttribute =new List<MaterialAttribute>();
             if (iMaterialId != 0)
-            {             
+            {
+
                 Material objSelectedMaterial = (Material)dMaterials.SelectedItem;
                 dMaterialType.SelectedValue = objSelectedMaterial.MaterialType.Id;
                 cIsEnable.IsChecked = objSelectedMaterial.IsActive;
 
-            
-                List<MaterialAttribute> lSelectedMaterialAttribute = objDataAccess.GetMaterialAttributesByMaterialId(objSelectedMaterial.Id);
+
+                lSelectedMaterialAttribute = objDataAccess.GetMaterialAttributesByMaterialId(objSelectedMaterial.Id);
                 if (lSelectedModels == null)
                     lSelectedModels = new List<MaterialGridAttribute>();
 
 
                 lSelectedModels.Clear();
-                lSelectedMaterialAttribute.ForEach(p => {
-                    lSelectedModels.Add(new MaterialGridAttribute() { Attribute = new AttributeModel() {
-                        AttributeId = p.Attribute.Id,
-                        AttributeName = p.Attribute.Name,
-                        AttributeTypeId = p.Attribute.TypeId,
-                        ParentId = p.Attribute.ParentId == null?0: (int)p.Attribute.ParentId
-                    }, IsSelected = true });
+                lSelectedMaterialAttribute.ForEach(p =>
+                {
+                    lSelectedModels.Add(new MaterialGridAttribute()
+                    {
+                        Attribute = new AttributeModel()
+                        {
+                            AttributeId = p.Attribute.Id,
+                            AttributeName = p.Attribute.Name,
+                            AttributeTypeId = p.Attribute.TypeId,
+                            ParentId = p.Attribute.ParentId == null ? 0 : (int)p.Attribute.ParentId
+                        },
+                        IsSelected = true
+                    });
                 });
                 dSelectedAttributes.ItemsSource = null;
                 dSelectedAttributes.ItemsSource = lSelectedModels;
-
-
-                List<AttributeModel> lAllAttributes = objDataAccess.GetAllAttributes();
+            }
+            else
+            {
+                lSelectedModels = new List<MaterialGridAttribute>();
+                dSelectedAttributes.ItemsSource = null;
+            }
+            List<AttributeModel> lAllAttributes = objDataAccess.GetAllAttributes();
 
                 if (lAttributeModels == null)
                     lAttributeModels = new List<MaterialGridAttribute>();
                 lAttributeModels.Clear();
-                int[] distinctSelectedAttributeId = lSelectedMaterialAttribute.Select(p => p.AttributeId).ToArray();
+                int[] distinctSelectedAttributeId = lSelectedMaterialAttribute?.Select(p => p.AttributeId).ToArray();
                 var AllAttributes = lAllAttributes.Where(p => !distinctSelectedAttributeId.Contains(p.AttributeId));
 
                 AllAttributes.ToList().ForEach(p => {                  
@@ -157,7 +175,8 @@ namespace Job_Manager
                 });
                 dAllAttributes.ItemsSource = null;
                 dAllAttributes.ItemsSource = lAttributeModels;
-            }
+            
+            
         }
 
         private void bCleart_Click(object sender, RoutedEventArgs e)
@@ -227,26 +246,80 @@ namespace Job_Manager
                 bool isSuccesss = objDataAccess.AddMaterial(objNewMaterial);
 
                 List<MaterialGridAttribute> objSelectedMaterialGridAttribute = (List<MaterialGridAttribute>)dSelectedAttributes.ItemsSource;
-                List<MaterialAttribute> lSelectedMaterialAttributes = new List<MaterialAttribute>();
-                for (int i = 1; i <= objSelectedMaterialGridAttribute.Count(); i++)
+                if (objSelectedMaterialGridAttribute != null)
                 {
-                    MaterialAttribute objMaterialAttribute = new MaterialAttribute();
-                    objMaterialAttribute.MaterialId = objNewMaterial.Id;
-                    objMaterialAttribute.AttributeId = objSelectedMaterialGridAttribute[i-1].Attribute.AttributeId;
-                    objMaterialAttribute.SortOder = i;
-                    objMaterialAttribute.IsRequired = true;
-                    lSelectedMaterialAttributes.Add(objMaterialAttribute);
-                }
-                if(isSuccesss)
-                {
-                    bool isMaterialAttributeUpdate = objDataAccess.UpdateMaterialAttributes(lSelectedMaterialAttributes);
-                    if (isMaterialAttributeUpdate)
-                        MessageBox.Show("Material Saved successfully");
+                    List<MaterialAttribute> lSelectedMaterialAttributes = new List<MaterialAttribute>();
+                    for (int i = 1; i <= objSelectedMaterialGridAttribute.Count(); i++)
+                    {
+                        MaterialAttribute objMaterialAttribute = new MaterialAttribute();
+                        objMaterialAttribute.MaterialId = objNewMaterial.Id;
+                        objMaterialAttribute.AttributeId = objSelectedMaterialGridAttribute[i - 1].Attribute.AttributeId;
+                        objMaterialAttribute.SortOder = i;
+                        objMaterialAttribute.IsRequired = true;
+                        lSelectedMaterialAttributes.Add(objMaterialAttribute);
+                    }
+                    if (isSuccesss)
+                    {
+                        bool isMaterialAttributeUpdate = objDataAccess.UpdateMaterialAttributes(lSelectedMaterialAttributes);
+                        if (isMaterialAttributeUpdate)
+                            MessageBox.Show("Material Saved successfully");
+                    }
+                    else
+                        MessageBox.Show("Material Failed to Save");
                 }
                 else
-                    MessageBox.Show("Material Failed to Save");
+                {
+                    MessageBox.Show("Material cannot be saved without selecting selected attribute");
+                }
+                
             }
             ClearScreen();
+        }
+
+        private void bDelete_Click(object sender, RoutedEventArgs e)
+        {
+            int iMaterialId = Convert.ToInt32(dMaterials.SelectedValue);
+            if (iMaterialId != 0)
+            {
+                bool isDelete = objDataAccess.DeleteMaterial(iMaterialId);
+                MessageBox.Show("Material deleted successfully");
+            }
+            else
+            {
+                MessageBox.Show("Select any Material to Delete");
+            }
+            ClearScreen();
+        }
+
+        private void bReOrderUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            MaterialGridAttribute objSelectedAttribute = (MaterialGridAttribute)dSelectedAttributes.SelectedValue;
+            int selectedIndex = dSelectedAttributes.SelectedIndex;
+            if (selectedIndex <= 0)
+                return;
+
+            List<MaterialGridAttribute> selectedAttributes = (List<MaterialGridAttribute>)dSelectedAttributes.ItemsSource;
+            selectedAttributes.RemoveAt(selectedIndex);
+            selectedAttributes.Insert(selectedIndex - 1, objSelectedAttribute);
+            dSelectedAttributes.ItemsSource = null;
+            dSelectedAttributes.ItemsSource = selectedAttributes;
+            dSelectedAttributes.SelectedValue = objSelectedAttribute;
+
+        }
+
+        private void bReOrderDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            MaterialGridAttribute objSelectedAttribute = (MaterialGridAttribute)dSelectedAttributes.SelectedValue;
+            int selectedIndex = dSelectedAttributes.SelectedIndex;
+            if (selectedIndex >= dSelectedAttributes.Items.Count-1)
+                return;
+
+            List<MaterialGridAttribute> selectedAttributes = (List<MaterialGridAttribute>)dSelectedAttributes.ItemsSource;
+            selectedAttributes.RemoveAt(selectedIndex);
+            selectedAttributes.Insert(selectedIndex + 1, objSelectedAttribute);
+            dSelectedAttributes.ItemsSource = null;
+            dSelectedAttributes.ItemsSource = selectedAttributes;
+            dSelectedAttributes.SelectedValue = objSelectedAttribute;
         }
     }
 

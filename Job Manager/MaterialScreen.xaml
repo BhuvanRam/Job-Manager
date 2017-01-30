@@ -5,84 +5,146 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="MaterialScreen" Height="500" Width="600">
+        Title="Customize Materials"  Width="1200" Height="600">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.30*"></RowDefinition>
-            <RowDefinition Height="0.30*"></RowDefinition>
-            <RowDefinition Height="0.50*"></RowDefinition>
+            <RowDefinition Height="0.20*"></RowDefinition>
+            <RowDefinition Height="0.20*"></RowDefinition>
+            <RowDefinition Height="0.20*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="0.50*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="0.40*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
             <ColumnDefinition Width="0.50*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label x:Name="labelMaterialName" Content="Material Name" Grid.Row="0" VerticalAlignment="Center"></Label>
-        <ComboBox x:Name="dMaterials" IsEditable="True" Grid.Column="1" Width="150" Height="30" HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="dMaterials_Selected"></ComboBox>
-        <Label x:Name="labelMaterialType" Grid.Row="1" Content="Material Type" VerticalAlignment="Center"></Label>
-        <ComboBox x:Name="dMaterialType" Grid.Column="1" Grid.Row="1" Width="150" Height="30" HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Id"></ComboBox>
-        <Label x:Name="labelIsEnable" Content="Is Enable" Grid.Row="2" VerticalAlignment="Center"></Label>
-        <CheckBox x:Name="cIsEnable" Grid.Row="2" Grid.Column="1" Width="20" Height="15" HorizontalAlignment="Left"></CheckBox>
+        <Label x:Name="labelMaterialName" Content="Material Name" Grid.Row="0" Style="{StaticResource Style_Label}"></Label>
+        <ComboBox x:Name="dMaterials" IsEditable="True" Grid.Column="1" Style="{StaticResource Style_DropdownStyle}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="dMaterials_Selected"></ComboBox>
+        <Label x:Name="labelMaterialType" Grid.Row="1" Content="Material Type" Style="{StaticResource Style_Label}"></Label>
+        <ComboBox x:Name="dMaterialType" Grid.Column="1" Grid.Row="1" Style="{StaticResource Style_DropdownStyle}" DisplayMemberPath="Name" SelectedValuePath="Id"></ComboBox>
+        <Label x:Name="labelIsEnable" Content="Is Enable" Grid.Row="2" Style="{StaticResource Style_Label}">
 
-        <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"  Grid.Row="3" Margin="10">
+        </Label>
+        <CheckBox x:Name="cIsEnable" Grid.Row="2" Grid.Column="1" Style="{StaticResource Style_MaterialEnableCheckBox}"></CheckBox>
+
+        <!--<Label Grid.Row="0" Grid.Column="2" Style="{StaticResource Style_MainHeading}" HorizontalAlignment="Left" VerticalAlignment="Top">Customize Materials</Label>-->
+        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="0.60*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Style="{StaticResource Style_MainHeading}" Grid.Row="0" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Label.Content>
+                    <AccessText TextWrapping="Wrap" Text="Material Customization"/>
+                </Label.Content>
+            </Label>
+            <Image Margin="0,0,10,0"  Grid.Column="1"  HorizontalAlignment="Left" Stretch="Uniform"  Source="Icons/Material_Customization_1.jpg" ></Image>
+        </Grid>
+
+
+        <Grid Grid.ColumnSpan="3" Grid.RowSpan="3"  Grid.Row="3"  Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*" ></ColumnDefinition>
                 <ColumnDefinition Width="70"></ColumnDefinition>
                 <ColumnDefinition Width="40*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0">
-                <Label x:Name="labelAttributes" VerticalAlignment="Center"  Content="Available Attributes"></Label>
-                <DataGrid x:Name="dAllAttributes"  AutoGenerateColumns="False" Height="240">
-                <DataGrid.Columns>
-                    <DataGridCheckBoxColumn x:Name="cIsSelected" Binding="{Binding IsSelected}" Header="Select"></DataGridCheckBoxColumn>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.25*"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            </StackPanel>
-            <Button x:Name="bAddAttributesToBelowGridToSave" Grid.Column="1" Width="60" Height="30" Content=" --->>>> " Click="bAddAttributesToBelowGridToSave_Click"></Button>
+            <Border Margin="5" Padding="5" 
+          BorderBrush="#4F81BD" BorderThickness="1" CornerRadius="3"
+          VerticalAlignment="Top" Grid.Column="0">
+                <StackPanel  MinHeight="500">
+                    <Label x:Name="labelAttributes" Style="{StaticResource Style_Label}" Content="Available Attributes"></Label>
+                    <DataGrid x:Name="dAllAttributes" CanUserAddRows="False"  IsEnabled="True" Margin="0,0,0,0" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"  Style="{StaticResource Style_MaterialEditDataGrid}" >
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn x:Name="cIsSelected" Binding="{Binding IsSelected}" Header="Select">
+                            </DataGridCheckBoxColumn>
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.25*"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+            <Button x:Name="bAddAttributesToBelowGridToSave" Grid.Column="1" Style="{StaticResource Style_RightEnhancement}" Click="bAddAttributesToBelowGridToSave_Click"></Button>
 
-            <StackPanel Grid.Column="2">
-                <Label x:Name="labelSelectedAttributes" VerticalAlignment="Center"  Content="Selected Attributes"></Label>
-                <DataGrid x:Name="dSelectedAttributes"   AutoGenerateColumns="False" Height="240">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.70*"></DataGridTextColumn>
+            <Border Margin="5" Padding="5" 
+          BorderBrush="#4F81BD" BorderThickness="1" CornerRadius="3"
+          VerticalAlignment="Top" Grid.Column="2" >
+                <Grid MinHeight="370">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="labelSelectedAttributes" Grid.Row="0" Grid.Column="0" Style="{StaticResource Style_Label}"  Content="Selected Attributes"></Label>
+                    <Button x:Name="bReOrderUpButton" Grid.Row="0" Style="{StaticResource Style_UpEnhancement}" Grid.Column="1" Width="30" HorizontalAlignment="Right" Margin="5,0,5,0" Click="bReOrderUpButton_Click"></Button>
+                    <Button x:Name="bReOrderDownButton" Style="{StaticResource Style_DowmEnhancement}"  Grid.Row="0" Grid.Column="2" Width="30" HorizontalAlignment="Left" Margin="5,0,0,0" Click="bReOrderDownButton_Click"></Button>
+                    <DataGrid Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="3"  CanUserAddRows="False" x:Name="dSelectedAttributes" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"    Style="{StaticResource Style_MaterialEditDataGrid}" AllowDrop="True" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.70*"></DataGridTextColumn>
 
-                        <DataGridTemplateColumn Header="Delete" Width="0.20*">
-                            <DataGridTemplateColumn.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="dSelectedAttributesEventSetter_OnHandlerDelete"></EventSetter>
-                                </Style>
-                            </DataGridTemplateColumn.CellStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="Icons/Delete.png" MinWidth="20" MaxWidth="20"></Image>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
+                            <DataGridTemplateColumn Header="Delete" Width="0.20*">
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="dSelectedAttributesEventSetter_OnHandlerDelete"></EventSetter>
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="Icons/Delete.ico" MinWidth="20" MaxWidth="20"></Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+                <!--<StackPanel VerticalAlignment="Stretch" MinHeight="500">
+                    <Label x:Name="labelSelectedAttributes" Style="{StaticResource Style_Label}"  Content="Selected Attributes"></Label>
+                    <Button x:Name="bReOrderUpButton" Content="Up" Width="30"></Button>
+                    <Button x:Name="bReOrderDownButton" Content="Down" Width="30"></Button>
+                    <DataGrid Margin="0,0,0,0" CanUserAddRows="False" x:Name="dSelectedAttributes" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"    Style="{StaticResource Style_MaterialEditDataGrid}" AllowDrop="True" IsReadOnly="True" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.70*"></DataGridTextColumn>
+
+                            <DataGridTemplateColumn Header="Delete" Width="0.20*">
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="dSelectedAttributesEventSetter_OnHandlerDelete"></EventSetter>
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="Icons/Delete.ico" MinWidth="20" MaxWidth="20"></Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>-->
+            </Border>
         </Grid>
 
-        
-            <Grid Grid.ColumnSpan="2"  Grid.Row="6">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-            <Button x:Name="bSave" Grid.Column="0" Content="Save Material" Height="25" Width="100" Click="bSave_Click"></Button>
-            <Button x:Name="bDelete" Grid.Column="1" Content="Delete Material" Height="25" Width="100"></Button>
-            <Button x:Name="bCleart" Grid.Column="2" HorizontalAlignment="Left" Content="Clear Material" Height="25" Width="100" Click="bCleart_Click"></Button>
+
+        <Grid Grid.ColumnSpan="3"  Grid.Row="6" Width="400" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="bSave" Grid.Column="0" Content="Save Material" Style="{StaticResource Style_SaveEnhancement}" Click="bSave_Click"></Button>
+            <Button x:Name="bDelete" Grid.Column="1" Content="Delete Material" Style="{StaticResource Style_DeleteEnhancement}" Click="bDelete_Click"></Button>
+            <Button x:Name="bCleart" Grid.Column="2" Content="Clear Material" Style="{StaticResource Style_ClearEnhancement}"  Click="bCleart_Click"></Button>
         </Grid>
 
-            
-        </Grid>
 
-        
-    
+    </Grid>
+
+
+
 </Window>

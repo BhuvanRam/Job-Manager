@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="Vendor" Height="400" Width="500">
+        Title="Vendor" Style="{StaticResource Style_NewVendorScreen}" >
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="80"></RowDefinition>
@@ -18,36 +19,54 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.8*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-                
-        <Label x:Name="lblVendorCode" Grid.Row="1" Content="Vendor Code"></Label>
-        <Label x:Name="lblVendorName" Grid.Row="1" Grid.Column="2" Content="Vendor Name"></Label>
-        <Label x:Name="lblAddress1" Grid.Row="2" Content="Address 1"></Label>
-        <Label x:Name="lblAddress2" Grid.Row="2" Grid.Column="2" Content="Address 2"></Label>
-        <Label x:Name="lblCity" Grid.Row="3" Grid.Column="0" Content="City"></Label>
-        <Label x:Name="lblState" Grid.Row="3" Grid.Column="2" Content="State"></Label>
-        <Label x:Name="lblPin" Grid.Row="4" Grid.Column="0" Content="Pin"></Label>
-        <Label x:Name="lblPhone" Grid.Row="4" Grid.Column="2" Content="Phone"></Label>
-        <Label x:Name="lblFax" Grid.Row="5" Grid.Column="0" Content="Fax No"></Label>
-        <Label x:Name="lblEmail" Grid.Row="5" Grid.Column="2" Content="Email"></Label>
-        <Label x:Name="lblContactPerson" Grid.Row="6" Grid.Column="0" Content="Contact Person"></Label>
-        <TextBox x:Name="txtVendorCode" Grid.Row="1" Grid.Column="1" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtVendorName" Grid.Row="1" Grid.Column="3" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtAddress1" Grid.Row="2" Grid.Column="1" Width="100" Height="60"></TextBox>
-        <TextBox x:Name="txtAddress2" Grid.Row="2" Grid.Column="3" Width="100" Height="60"></TextBox>
-        <TextBox x:Name="txtCity" Grid.Row="3" Grid.Column="1" Width="100" Height="25"></TextBox>
-        <ComboBox x:Name="cState" Grid.Row="3" Grid.Column="3" Width="100" Height="25" DisplayMemberPath="StateName" SelectedValuePath="StateId" SelectedValue="StateId"></ComboBox>
-        <TextBox x:Name="txtPin" Grid.Row="4" Grid.Column="1" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtPhone" Grid.Row="4" Grid.Column="3" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtFax" Grid.Row="5" Grid.Column="1" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtEmail" Grid.Row="5" Grid.Column="3" Width="100" Height="25"></TextBox>
-        <TextBox x:Name="txtContactPerson" Grid.Row="6" Grid.Column="1" Width="100" Height="25"></TextBox>
 
-        <Button x:Name="btnClearVendor" Content="Clear Vendor" Grid.Row="7" Width="100" Height="25" Click="btnClearVendor_Click"></Button>
-        <Button x:Name="btnAddVendor" Content="Save Vendor" Grid.Row="7" Grid.Column="1" Width="100" Height="25" Click="btnAddVendor_Click"></Button>
+        <Label Style="{StaticResource Style_MainHeading}" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label.Content>
+                <AccessText Text="Vendor Customization"/>
+            </Label.Content>
+        </Label>
+        <Image Margin="0,0,10,0"  Grid.Row="0" Grid.RowSpan="2"  Grid.ColumnSpan="2" Grid.Column="2"  HorizontalAlignment="Left" Stretch="Uniform"  Source="Icons/Vendor_Management.png" ></Image>
+
+        <Label x:Name="lblVendorCode" Grid.Row="2" Content="Vendor Code" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblVendorName" Grid.Row="2" Grid.Column="2" Content="Vendor Name" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblAddress1" Grid.Row="3" Content="Address 1" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblAddress2" Grid.Row="3" Grid.Column="2" Content="Address 2" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblCity" Grid.Row="4" Grid.Column="0" Content="City" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblState" Grid.Row="4" Grid.Column="2" Content="State" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblPin" Grid.Row="5" Grid.Column="0" Content="Pin" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblPhone" Grid.Row="5" Grid.Column="2" Content="Phone" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblFax" Grid.Row="6" Grid.Column="0" Content="Fax No" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblEmail" Grid.Row="6" Grid.Column="2" Content="Email" Style="{StaticResource style_VendorLabel}"></Label>
+        <Label x:Name="lblContactPerson" Style="{StaticResource style_VendorLabel}" Grid.Row="7" Grid.Column="0" Content="Contact Person"></Label>
+
+        <TextBox x:Name="txtVendorCode" Grid.Row="2" Grid.Column="1" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtVendorName" Grid.Row="2" Grid.Column="3" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtAddress1" Grid.Row="3" Grid.Column="1" Style="{StaticResource Style_VendorAddressField}"></TextBox>
+        <TextBox x:Name="txtAddress2" Grid.Row="3" Grid.Column="3" Style="{StaticResource Style_VendorAddressField}"></TextBox>
+        <TextBox x:Name="txtCity" Grid.Row="4" Grid.Column="1" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <ComboBox x:Name="cState" Grid.Row="4" Grid.Column="3" Style="{StaticResource Style_VendorDropdownField}" DisplayMemberPath="StateName" SelectedValuePath="StateId" SelectedValue="StateId"></ComboBox>
+        <TextBox x:Name="txtPin" Grid.Row="5" Grid.Column="1" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtPhone" Grid.Row="5" Grid.Column="3" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtFax" Grid.Row="6" Grid.Column="1" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtEmail" Grid.Row="6" Grid.Column="3" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+        <TextBox x:Name="txtContactPerson" Grid.Row="7" Grid.Column="1" Style="{StaticResource Style_VendorEntryField}"></TextBox>
+
+
+        <Grid Grid.ColumnSpan="3"  Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnAddVendor" Content="Save Vendor"  Grid.Column="0" Style="{StaticResource Style_SaveEnhancement}"  Click="btnAddVendor_Click"></Button>
+            <Button x:Name="btnClearVendor" Content="Clear Vendor" Grid.Column="1" Style="{StaticResource Style_ClearEnhancement}" Click="btnClearVendor_Click"></Button>
+            
+        </Grid>
+        
     </Grid>
 </Window>

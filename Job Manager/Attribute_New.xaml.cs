@@ -179,7 +179,7 @@ namespace Job_Manager
                     }
                 }
 
-                if (dGridNewAttributes.Items[0].GetType().Name == nameof(NewAttributeGrid))
+                if (dGridNewAttributes.Items.Count > 0 && dGridNewAttributes.Items[0].GetType().Name == nameof(NewAttributeGrid))
                 {
 
                     List<NewAttributeGrid> lGridAttributeValues = (List<NewAttributeGrid>)dGridNewAttributes.ItemsSource;
@@ -194,7 +194,7 @@ namespace Job_Manager
 
                     MessageBox.Show("Attributes Saved Successfully");
                 }
-                else if (dGridNewAttributes.Items[0].GetType().Name == nameof(AttributeValueModel))
+                else if (dGridNewAttributes.Items.Count > 0 && dGridNewAttributes.Items[0].GetType().Name == nameof(AttributeValueModel))
                 {
                     List<AttributeValueModel> lAttributeValues = (List<AttributeValueModel>)dGridNewAttributes.ItemsSource;
 

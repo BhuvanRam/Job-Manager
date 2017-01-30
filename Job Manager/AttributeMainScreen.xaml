@@ -5,18 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="AttributeMainScreen" Height="600" Width="700">
+        Title="Attribute Management" Style="{StaticResource Style_MainAttributeWindow}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Button x:Name="bAddAttribute" Content="Add Attribute" Width="100" HorizontalAlignment="Left" Click="bAddAttribute_Click"/>
-            <Label x:Name="lblHeading"  Content="Attribute List" Width="60" HorizontalAlignment="Left"/>
-        </StackPanel>
-       
-        <DataGrid x:Name="dgAttributeGrid" Grid.Row="1" IsReadOnly="true">
+        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="800"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid  Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="Icons/Attribute_Management_1.jpg" HorizontalAlignment="Left"></Image>
+            <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Style_MainHeading}">
+                Attribute Management
+            </Label>
+        </Grid>
+        
+            <Button Grid.Row="0" Grid.Column="1" x:Name="bAddAttribute" Content="Add Attribute" VerticalAlignment="Bottom"  Style="{StaticResource Style_SaveEnhancement}" Click="bAddAttribute_Click"/>
+        
+
+        <DataGrid x:Name="dgAttributeGrid" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource Style_AttributeDataGrid}" Grid.Row="1" Grid.ColumnSpan="2" IsReadOnly="true">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding AttributeId}" Width="0.25*" Header="Attribute Id"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AttributeName}" Width="0.25*" Header="Attribute Type"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AttributeParentName}" Width="0.25*" Header="Attribute Parent Name"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AttributeValueId}" Width="0.25*" Header="Attribute Value Id"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AttributeValueName}" Width="0.25*" Header="Attribute Value Name"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AttributeValueParentName}" Width="0.25*" Header="Value Parent Name"></DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Window>

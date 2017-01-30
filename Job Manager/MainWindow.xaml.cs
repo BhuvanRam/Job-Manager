@@ -76,10 +76,18 @@ namespace Job_Manager
 
         private void MenuItemAddVendor_Click(object sender, RoutedEventArgs e)
         {
-            VendorScreen objVendorScreen = new VendorScreen();
-            objVendorScreen.ShowInTaskbar = false;
-            objVendorScreen.Owner = this;
-            objVendorScreen.ShowDialog();
+            VendorMainScreen objVendorMainScreen = new VendorMainScreen();
+            objVendorMainScreen.ShowInTaskbar = false;
+            objVendorMainScreen.Owner = this;
+            objVendorMainScreen.ShowDialog();
+        }
+
+        private void MenuItemUserManagement_Click(object sender, RoutedEventArgs e)
+        {
+            UserMainScreen objUserMainScreen = new UserMainScreen();
+            objUserMainScreen.ShowInTaskbar = false;
+            objUserMainScreen.Owner = this;
+            objUserMainScreen.ShowDialog();
         }
     }
 }

@@ -35,7 +35,10 @@ namespace Job_Manager.UserIdentity
 
         public bool IsInRole(string role)
         {
-            return _identity.Roles.Contains(role);
+            if (_identity.RoleId != 0)
+                return true;
+            else
+                return false;
         }
     }
 }

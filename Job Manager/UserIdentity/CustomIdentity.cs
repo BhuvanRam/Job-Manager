@@ -11,7 +11,8 @@ namespace Job_Manager.UserIdentity
     {
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public string[] Roles { get; private set; }
+        public int RoleId { get; private set; }
+        //public int Roles { get; private set; }
 
         public string AuthenticationType
         {
@@ -30,11 +31,11 @@ namespace Job_Manager.UserIdentity
             }
         }
 
-        public CustomIdentity(string name, string email, string[] roles)
+        public CustomIdentity(string name, string email, int roleId)
         {
             Name = name;
             Email = email;
-            Roles = roles;
+            RoleId = roleId;
         }
 
 

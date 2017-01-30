@@ -25,7 +25,24 @@ namespace Job_Manager
         DataAccess da = new DataAccess();
         DataTable dtMaterialAttributes = new DataTable();
         int jobId = 1;
-        public AddMaterialToJob()
+        public AddMaterialToJob(int jobIdParam)
+        {
+            InitializeComponent();
+            jobId = jobIdParam;
+            dtMaterialAttributes.Columns.AddRange(new DataColumn[]
+            {
+                new DataColumn("JobId",typeof(int)),
+                new DataColumn("MaterialId",typeof(int)),
+                new DataColumn("AttributeId",typeof(int)),
+                new DataColumn("TypeId",typeof(int)),
+                new DataColumn("ControlName",typeof(string)),
+                new DataColumn("ValueId",typeof(int)),
+                new DataColumn("Value",typeof(string))
+            });
+
+            LoadMaterialCombo();
+        }
+        public AddMaterialToJob(JobMaterialModel jm)
         {
             InitializeComponent();
 
@@ -41,6 +58,7 @@ namespace Job_Manager
             });
 
             LoadMaterialCombo();
+            
         }
         private void LoadMaterialCombo()
         {
@@ -137,6 +155,7 @@ namespace Job_Manager
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            try { 
             foreach(DataRow dr in dtMaterialAttributes.Rows)
             {
                 if (Convert.ToInt32(dr["TypeId"]) == 2)
@@ -180,6 +199,12 @@ namespace Job_Manager
 
             var myObject = this.Owner as JobDetails;
             myObject.LoadJobDetails();
+            }catch(Exception ex)
+            {
+                if (ex.InnerException != null)
+                    MessageBox.Show("Message:"+ ex.Message + "Inner Message:" + ex.InnerException.Message);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

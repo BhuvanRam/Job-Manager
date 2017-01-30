@@ -9,12 +9,18 @@ namespace JobManager.Model
     public class User
     {
 
-        public User(string username, string email, string[] roles)
+        public User(string username, string email, int roleId)
         {
             Username = username;
-            Email = email;
-            Roles = roles;
+            EmailId = email;
+            RoleId= roleId;
         }
+        public User()
+        {
+
+        }
+
+        public int UserId { get; set; }
 
         public string Username
         {
@@ -22,16 +28,21 @@ namespace JobManager.Model
             set;
         }
 
-        public string Email
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+
+        public string EmailId
         {
             get;
             set;
         }
 
-        public string[] Roles
+        public int RoleId
         {
             get;
             set;
         }
+
+        public DateTime CreatedDate{ get; set; }
     }
 }

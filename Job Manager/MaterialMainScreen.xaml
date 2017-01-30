@@ -5,14 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="Material Main Screen" Height="400" Width="500">
+        Title="Material Management" Style="{StaticResource Style_MainMaterialWindow}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="bAddMaterial" Width="100" Height="20" Content="Add Material" HorizontalAlignment="Left" Click="bAddMaterial_Click"></Button>
-        <DataGrid x:Name="dMainMaterialGrid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid  Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="Icons/Material_Management_1.jpg" HorizontalAlignment="Left"></Image>
+            <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Style_MainHeading}">
+                Material Management
+            </Label>
+        </Grid>
+
+        <Button x:Name="bAddMaterial" Click="bAddMaterial_Click" Grid.Row="0" Grid.Column="1"  Style="{StaticResource Style_SaveEnhancement}">
+            Add Material
+        </Button>
+        <DataGrid ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" x:Name="dMainMaterialGrid" Style="{StaticResource Style_MaterialDataGrid}" Grid.Row="2" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Material.Name}" Width="0.25*" Header="Material"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Material.MaterialType.Name}" Width="0.25*" Header="Material Type"></DataGridTextColumn>

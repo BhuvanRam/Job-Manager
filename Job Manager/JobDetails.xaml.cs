@@ -28,12 +28,13 @@ namespace Job_Manager
         private int jobId;
         DataAccess da = new DataAccess();
         JobModel job;
+        JobMaterialModel jm;
         public JobDetails()
         {
             InitializeComponent();
 
             //jobId = 1;lbl
-            //LoadJobDetails();
+            //LoadJobDetails();            
             this.TopCanvas.Visibility = Visibility.Hidden;
             this.dgJobMaterials.Visibility = Visibility.Hidden;
             this.lblErrorMsg.Visibility = Visibility.Hidden;
@@ -48,6 +49,7 @@ namespace Job_Manager
                 this.txtJobId.Text = job.JobId.ToString();
                 this.txtJobName.Text = job.JobName;
                 this.txtCreateDate.Text = job.CreatedDate.ToShortDateString();
+                this.cmbStatus.SelectedValue = job.StatusId;
                 this.TopCanvas.Visibility = Visibility.Visible;
                 this.dgJobMaterials.Visibility = Visibility.Visible;
                 this.lblErrorMsg.Visibility = Visibility.Hidden;
@@ -63,10 +65,15 @@ namespace Job_Manager
         {
             JobModel jobModel = da.GetJobMaterials(jobId);
             dgJobMaterials.ItemsSource = jobModel.Materials;
+
+            List<JobStatus> js = da.GetJobStatuses();
+            cmbStatus.DisplayMemberPath = "Name";
+            cmbStatus.SelectedValuePath = "Id";
+            cmbStatus.ItemsSource = js;
         }
         private void btnAddMaterial_Click(object sender, RoutedEventArgs e)
         {
-            AddMaterialToJob addMaterialWindow = new Job_Manager.AddMaterialToJob();
+            AddMaterialToJob addMaterialWindow = new Job_Manager.AddMaterialToJob(jobId);
             addMaterialWindow.ShowInTaskbar = false;
             addMaterialWindow.Owner = this;
             addMaterialWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -85,6 +92,52 @@ namespace Job_Manager
         private void txtSearchJobId_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = (int)e.Key >= 43 || (int)e.Key <= 34;
+        }
+
+        private void dgJobMaterials_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgJobMaterials.SelectedItems.Count > 1)
+            {
+               // this.btnEditMaterial.IsEnabled = false;
+                jm = null;
+            }
+            else
+            {
+                jm = (JobMaterialModel)this.dgJobMaterials.SelectedItem;
+                //this.btnEditMaterial.IsEnabled = true;
+            }
+        }
+
+        private void btnCreatePO_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAddJob_Click(object sender, RoutedEventArgs e)
+        {
+            AddJob addJob = new Job_Manager.AddJob();
+            addJob.ShowInTaskbar = false;
+            addJob.Owner = this;
+            addJob.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            addJob.ShowDialog();
+        }
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                job.JobName = this.txtJobName.Text;
+                job.StatusId = Convert.ToInt32(this.cmbStatus.SelectedValue);
+                da.SaveJobDetails(job);
+                MessageBox.Show("Job details Updated Successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddJob.xaml.cs" />
     <Compile Include="Attribute.xaml.cs">
       <DependentUpon>Attribute.xaml</DependentUpon>
     </Compile>
@@ -78,6 +79,15 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCustomizationScreen.xaml.cs">
+      <DependentUpon>UserCustomizationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserMainScreen.xaml.cs">
+      <DependentUpon>UserMainScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VendorMainScreen.xaml.cs">
       <DependentUpon>VendorMainScreen.xaml</DependentUpon>
     </Compile>
@@ -94,6 +104,11 @@
     <Compile Include="UserIdentity\IAuthenticationService.cs" />
     <Compile Include="ViewModel\AuthenticationViewModel.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
+    <Compile Include="VisualHelper.cs" />
+    <Page Include="AddJob.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="AddMaterialToJob.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +153,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MaterialScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\JobManagerStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserCustomizationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserMainScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,6 +226,65 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Edit.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Save.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Material_Management.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Material_Management_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Delete.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Clear.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Right.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Material_Customization.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Material_Customization_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Material_Customization_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Attribute_Management.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Attribute_Management_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Attribute_Customization.png" />
+    <Resource Include="Icons\Attribute_Customization_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Vendor_Management.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Vendor_Management.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\key_login.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\SplashScreen.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\User_Management.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Down.ico" />
+    <Resource Include="Icons\Up.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

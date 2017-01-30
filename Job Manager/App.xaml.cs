@@ -4,9 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Job_Manager
 {
@@ -26,18 +29,37 @@ namespace Job_Manager
             base.OnStartup(e);
 
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            //Show the login view and Dependency Injection
-            //AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
-            //var loginWindow = new LoginWindow(viewModel) { };
-            //viewModel.OnRequestClose += (s, evt) => loginWindow.Close();
-            //loginWindow.ShowDialog();
+            
+            SplashScreen splash = new SplashScreen();
+            splash.Show();            
+            Stopwatch timer = new Stopwatch();
+            timer.Start();    
+                    
+            base.OnStartup(e);
+            AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
+            var loginWindow = new LoginWindow(viewModel) { };
+            viewModel.OnRequestClose += (s, evt) => loginWindow.Close();
+
+            timer.Stop();
+
+            int MINIMUM_SPLASH_TIME = 3000;
+            int remainingTimeToShowSplash = MINIMUM_SPLASH_TIME - (int)timer.ElapsedMilliseconds;
+            if (remainingTimeToShowSplash > 0)
+                Thread.Sleep(remainingTimeToShowSplash);
+
+            splash.Close();
+
+
+            //Show the login view and Dependency Injection         
+            loginWindow.ShowDialog();
+            
 
             //AttributeViewModel objAttributeViewModel = new AttributeViewModel();
             //var attributeView = new Attribute(objAttributeViewModel);
             //attributeView.ShowDialog();
 
-            //Attribute_New objAttribute_New = new Attribute_New();
-            //objAttribute_New.ShowDialog();
+         //   Attribute_New objAttribute_New = new Attribute_New();
+           // objAttribute_New.ShowDialog();
 
             //AttributeMainScreen objAttributeMainScreen = new AttributeMainScreen();
             //objAttributeMainScreen.ShowDialog();
@@ -45,8 +67,19 @@ namespace Job_Manager
             //MaterialScreen objMaterialMainScreen = new MaterialScreen();
             //objMaterialMainScreen.ShowDialog();
 
-            VendorScreen objVendor = new VendorScreen();
-            objVendor.ShowDialog();
+            //MaterialMainScreen objMaterialMainScreen = new MaterialMainScreen();
+            //objMaterialMainScreen.ShowDialog();
+
+            //VendorMainScreen objVendor = new VendorMainScreen();
+            //objVendor.ShowDialog();
+
+            //VendorScreen objVendorScreen = new VendorScreen();
+            //objVendorScreen.ShowDialog();
+
+            //UserMainScreen objUserMainScreen = new UserMainScreen();
+            //objUserMainScreen.ShowDialog();
+            //UserMainScreen objUserMainScreen = new UserMainScreen();
+            //objUserMainScreen.ShowDialog();
         }
     }
 }

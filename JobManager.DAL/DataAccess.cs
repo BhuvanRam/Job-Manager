@@ -26,11 +26,18 @@ namespace JobManager.DAL
                 jobDetails.JobId = jm.Id;
                 jobDetails.JobName = jm.JobName;
                 jobDetails.CreatedDate = jm.CreatedDate;
-
+                jobDetails.StatusId = jm.StatusId;
                 return jobDetails;
             }
             return null;
         }
+
+
+        public void SaveJobDetails(JobModel job)
+        {
+            jmdc.UPDJobDetails(job.JobId, job.JobName, job.StatusId);
+        }
+
         public JobModel GetJobMaterials(int jobId)
         {
             JobModel jobModel = new JobModel();
@@ -422,7 +429,7 @@ namespace JobManager.DAL
 
         public List<MaterialAttribute> GetMaterialAttributesByMaterialId(int MaterialId)
         {
-            List<MaterialAttribute> MaterialAttribute = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).ToList();           
+            List<MaterialAttribute> MaterialAttribute = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).OrderBy(p => p.SortOder).ToList();           
             return MaterialAttribute;
         }
 
@@ -449,9 +456,14 @@ namespace JobManager.DAL
 
         public bool DeleteMaterial(int MaterialId)
         {
-            bool isResult = true;
+            bool isResult = true;         
             try
             {
+                List<MaterialAttribute> lMaterialAttributes = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).Select(p => p).ToList();
+                foreach (MaterialAttribute itemMaterialAttribute in lMaterialAttributes)
+                {
+                    DeleteAttributeFromMaterial(MaterialId, itemMaterialAttribute.AttributeId);
+                }
                 Material objDeleteMaterial = jmdc.Materials.Where(p => p.Id == MaterialId).Select(p => p).FirstOrDefault();
                 jmdc.Materials.DeleteOnSubmit(objDeleteMaterial);
                 jmdc.SubmitChanges();
@@ -599,7 +611,21 @@ namespace JobManager.DAL
             }
             return isInserted;
         }
-
+        public bool AddJob(Job objJob)
+        {
+            bool isInserted = false;
+            try
+            {
+                jmdc.Jobs.InsertOnSubmit(objJob);
+                jmdc.SubmitChanges();
+                isInserted = true;
+            }
+            catch (Exception)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+        }
         public bool DeleteVendor(string VendorCode)
         {
             bool isDeleted = false;
@@ -683,6 +709,91 @@ namespace JobManager.DAL
                 throw;
             }
             return lGetVendors;
+        }
+
+        public USER AuthenticateUser(string userName,string Password)
+        {
+            USER objAuthenticateUser = new USER();
+            try
+            {
+                var AuthenticateUser = jmdc.USERs.Where(p => p.UserName == userName && p.Password == Password);
+                if(AuthenticateUser.Any())
+                {
+                    objAuthenticateUser = AuthenticateUser.SingleOrDefault();
+                    
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return objAuthenticateUser;
+        }
+
+        public List<USER> GetAllUsers()
+        {
+            List<USER> lUsers = jmdc.USERs.Select( p => p).ToList();
+            return lUsers;
+        }
+
+        public List<ROLE> GetAllRoles()
+        {
+            List<ROLE> lRoles = jmdc.ROLEs.Select(p => p).ToList();
+            return lRoles;
+        }
+
+        public bool CheckUserNameAvailability(string userName)
+        {
+            var userDetails =  jmdc.USERs.Where(p => p.UserName == userName);
+            return userDetails.Any();
+        }
+
+        public bool saveUser(USER objnewUser)
+        {
+            bool isInserted = false;
+            try
+            {
+                jmdc.USERs.InsertOnSubmit(objnewUser);
+                jmdc.SubmitChanges();
+                isInserted = true;
+            }
+            catch (Exception)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+           
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            bool isDeleted = false;
+            try
+            {
+                USER objDeleteUSER = jmdc.USERs.Where(p => p.UserID == userId).Select(p => p).FirstOrDefault();
+                jmdc.USERs.DeleteOnSubmit(objDeleteUSER);
+                jmdc.SubmitChanges();
+                isDeleted = true;
+            }
+            catch (Exception)
+            {
+                return isDeleted;
+            }
+            return isDeleted;
+        }
+        public List<JobStatus> GetJobStatuses()
+        {
+            List<JobStatus> jobStatuses = new List<JobStatus>();
+            var values = jmdc.GetJobStatuses();
+
+            foreach (GetJobStatusesResult jm in values)
+            {
+                JobStatus js = new JobStatus();
+                js.Id = jm.Id;
+                js.Name = jm.Name;
+                jobStatuses.Add(js);
+            }
+            return jobStatuses;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using JobManager.Model;
+﻿using JobManager.DAL;
+using JobManager.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Job_Manager.UserIdentity
 {
     public interface IAuthenticationService
     {
-        User AuthenticateUser(string username, string password);
+        USER AuthenticateUser(string username, string password);
     }
 }
