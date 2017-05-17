@@ -39,8 +39,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +55,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -69,11 +72,23 @@
     <Compile Include="Attribute_New.xaml.cs">
       <DependentUpon>Attribute_New.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreatePOfromJob.xaml.cs">
+      <DependentUpon>CreatePOfromJob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobSearch.xaml.cs">
+      <DependentUpon>JobSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MaterialMainScreen.xaml.cs">
       <DependentUpon>MaterialMainScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="MaterialScreen.xaml.cs">
       <DependentUpon>MaterialScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderReport.xaml.cs">
+      <DependentUpon>PurchaseOrderReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer.xaml.cs">
+      <DependentUpon>ReportViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\AttributeService.cs" />
     <Compile Include="LoginWindow.xaml.cs">
@@ -125,6 +140,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CreatePOfromJob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JobDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +159,10 @@
       <DependentUpon>JobDetails.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="JobSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +178,14 @@
     <Page Include="MaterialScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PurchaseOrderReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReportViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SplashScreen.xaml">
       <SubType>Designer</SubType>
@@ -202,14 +233,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="PurchaseOrderReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="Properties\DataSources\JobManager.Model.ReportPOTotal.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JobManager.DAL\JobManager.DAL.csproj">

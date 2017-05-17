@@ -16,6 +16,11 @@ namespace JobManager.Model
         public DateTime CreatedDate { get; set; }
 
         public int StatusId { get; set; }
+        public string Status { get; set; }
+
+        public int? BranchId { get; set; }
+
+        public string Branch { get; set; }
 
         public List<JobMaterialModel> Materials { get; set; }
     }

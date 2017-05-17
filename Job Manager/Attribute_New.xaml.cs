@@ -203,7 +203,7 @@ namespace Job_Manager
                     objDataAccess.AddAttributeValueList(lNewAttributeValues);
 
                     List<AttributeValueModel> lUpdateAttributeValues = new List<AttributeValueModel>();
-                    lUpdateAttributeValues = lAttributeValues.Where(p => p.Id != 0 && p.AttributeId != 0).Select(p => new AttributeValueModel() { Id = p.AttributeId,Name = p.Name, AttributeId = iAttributeId, ParentValue = p.ParentValue }).ToList();
+                    lUpdateAttributeValues = lAttributeValues.Where(p => p.Id != 0 && p.AttributeId != 0).Select(p => new AttributeValueModel() { Id = p.Id,Name = p.Name, AttributeId = iAttributeId, ParentValue = p.ParentValue }).ToList();
                     objDataAccess.UpdateAttributeValueList(lUpdateAttributeValues);
 
                     MessageBox.Show("Attributes Saved Successfully");

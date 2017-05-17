@@ -43,13 +43,22 @@
     <Compile Include="AttributeGridModel.cs" />
     <Compile Include="AttributeModel.cs" />
     <Compile Include="AttributeTypeModel.cs" />
+    <Compile Include="BranchModel.cs" />
+    <Compile Include="Company.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="JobMaterial.cs" />
     <Compile Include="JobModel.cs" />
+    <Compile Include="JobPOMaterialModel.cs" />
+    <Compile Include="JobPOModel.cs" />
     <Compile Include="MaterialAttributeModel.cs" />
     <Compile Include="MaterialModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportPOTotal.cs" />
     <Compile Include="Role_245632.cs" />
     <Compile Include="User_2453.cs" />
+    <Compile Include="ReportHeaderData.cs" />
+    <Compile Include="ReportPOContent.cs" />
+    <Compile Include="ReportPOTerms_Conditions.cs" />
     <Compile Include="VendorModel.cs" />
   </ItemGroup>
   <ItemGroup>

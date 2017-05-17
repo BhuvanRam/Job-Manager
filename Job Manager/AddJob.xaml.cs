@@ -29,22 +29,41 @@ namespace Job_Manager
             this.txtCreatedOn.Text = DateTime.Now.ToShortDateString();
             UserIdentity.CustomPrincipal customPrincipal = Thread.CurrentPrincipal as UserIdentity.CustomPrincipal;
             this.txtCreatedBy.Text = customPrincipal.Identity.Name;
+
+            List<JobManager.Model.BranchModel> branches = objDataAccess.GetBranches();
+            cmbBranch.DisplayMemberPath = "Name";
+            cmbBranch.SelectedValuePath = "Id";
+            cmbBranch.ItemsSource = branches;
+            cmbBranch.SelectedValue = -1;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if(Convert.ToInt32(cmbBranch.SelectedValue) == -1)
+            {
+                MessageBox.Show("Please select Branch");
+                cmbBranch.Focus();
+                return;
+            }
             Job objJob = new Job()
             {
                 JobName = txtJobName.Text,
                 CreatedBy = txtCreatedBy.Text,
-                CreatedDate = Convert.ToDateTime(txtCreatedOn.Text)             
+                CreatedDate = Convert.ToDateTime(txtCreatedOn.Text),
+                BranchId = Convert.ToInt32(cmbBranch.SelectedValue),    
+                StatusId = 1        
             };
 
-            bool isInserted = objDataAccess.AddJob(objJob);
-            if (isInserted)
+            int newJobId = objDataAccess.AddJob(objJob);
+            if (newJobId > 0 )
             {
-                MessageBox.Show("Job Added successfully");
+                MessageBox.Show("Job Id:"+newJobId+" added successfully");
+                JobDetails jobDetails = new Job_Manager.JobDetails(newJobId);
+                jobDetails.ShowInTaskbar = false;
+                jobDetails.Owner = this.Owner;
+                jobDetails.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 this.Close();
+                jobDetails.ShowDialog();                
             }
             else
                 MessageBox.Show("Failed to Add Job");

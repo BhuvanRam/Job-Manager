@@ -76,6 +76,9 @@ namespace Job_Manager
             List<MaterialAttributeModel> attributes = da.GetAttributesOfMaterial(Convert.ToInt32(cmbMaterial.SelectedValue));
             double defaultTop = 40;
             this.dynamicsCanvas.Children.Clear();
+            this.lblQty.Visibility = Visibility.Hidden;
+            this.txtQty.Visibility = Visibility.Hidden;
+            this.txtQty.Text = "1";
             foreach (MaterialAttributeModel ma in attributes)
             {
                 DataRow dr = dtMaterialAttributes.NewRow();
@@ -129,6 +132,11 @@ namespace Job_Manager
                 }
                 defaultTop = defaultTop + 30;
                 dtMaterialAttributes.Rows.Add(dr);
+            }
+            if (dtMaterialAttributes.Rows.Count > 1)
+            {
+                this.lblQty.Visibility = Visibility.Visible;
+                this.txtQty.Visibility = Visibility.Visible;
             }
         }
 
@@ -192,14 +200,22 @@ namespace Job_Manager
                     }
                 }
             }
-            da.InsertUpdateJobMaterial(dtMaterialAttributes);
 
-            MessageBox.Show("Selected Material Successfully added to the Job");
+                JobMaterialField jmf = new JobMaterialField();
+                jmf.JobId = jobId;
+                jmf.MaterialId = int.Parse(this.cmbMaterial.SelectedValue.ToString());
+                jmf.Quantity = int.Parse(this.txtQty.Text);
+
+                da.InsertUpdateJobMaterial(dtMaterialAttributes, jmf);
+                
+
+                MessageBox.Show("Selected Material Successfully added to the Job");
             LoadMaterialCombo();
 
             var myObject = this.Owner as JobDetails;
             myObject.LoadJobDetails();
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 if (ex.InnerException != null)
                     MessageBox.Show("Message:"+ ex.Message + "Inner Message:" + ex.InnerException.Message);

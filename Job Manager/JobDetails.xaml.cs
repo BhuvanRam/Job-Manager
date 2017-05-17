@@ -33,43 +33,72 @@ namespace Job_Manager
         {
             InitializeComponent();
 
-            //jobId = 1;lbl
-            //LoadJobDetails();            
-            this.TopCanvas.Visibility = Visibility.Hidden;
-            this.dgJobMaterials.Visibility = Visibility.Hidden;
-            this.lblErrorMsg.Visibility = Visibility.Hidden;
         }
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        public JobDetails(int jobId)
         {
-            jobId = Int32.Parse(this.txtSearchJobId.Text);
-            job = da.GetJobDetails(jobId);
-            if (job != null)
-            {
-                LoadJobDetails();
-                this.txtJobId.Text = job.JobId.ToString();
-                this.txtJobName.Text = job.JobName;
-                this.txtCreateDate.Text = job.CreatedDate.ToShortDateString();
-                this.cmbStatus.SelectedValue = job.StatusId;
-                this.TopCanvas.Visibility = Visibility.Visible;
-                this.dgJobMaterials.Visibility = Visibility.Visible;
-                this.lblErrorMsg.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                this.TopCanvas.Visibility = Visibility.Hidden;
-                this.dgJobMaterials.Visibility = Visibility.Hidden;
-                this.lblErrorMsg.Visibility = Visibility.Visible;
-            }
+            InitializeComponent();
+
+            this.jobId = jobId;
+            LoadJobDetails();            
         }
+        //public void btnSearch_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (Int32.TryParse(this.txtSearchJobId.Text, out jobId)){
+        //        job = da.GetJobDetails(jobId);
+        //        if (job != null)
+        //        {
+        //            LoadJobDetails();
+        //            this.txtJobId.Text = job.JobId.ToString();
+        //            this.txtJobName.Text = job.JobName;
+        //            this.txtCreateDate.Text = job.CreatedDate.ToShortDateString();
+        //            this.cmbStatus.SelectedValue = job.StatusId;
+        //            if (job.BranchId != null)
+        //                this.cmbBranch.SelectedValue = job.BranchId;
+        //            this.TopCanvas.Visibility = Visibility.Visible;
+        //            this.dgJobMaterials.Visibility = Visibility.Visible;
+        //            this.lblErrorMsg.Visibility = Visibility.Hidden;
+        //        }
+        //        else
+        //        {
+        //            this.TopCanvas.Visibility = Visibility.Hidden;
+        //            this.dgJobMaterials.Visibility = Visibility.Hidden;
+        //            this.lblErrorMsg.Visibility = Visibility.Visible;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Please enter valid Job Id");
+        //        this.txtSearchJobId.Focus();
+        //    }
+        //}
         public void LoadJobDetails()    
         {
-            JobModel jobModel = da.GetJobMaterials(jobId);
-            dgJobMaterials.ItemsSource = jobModel.Materials;
-
-            List<JobStatus> js = da.GetJobStatuses();
+            job = da.GetJobDetails(jobId);
+            List<JobManager.Model.JobStatus> js = da.GetJobStatuses();
             cmbStatus.DisplayMemberPath = "Name";
             cmbStatus.SelectedValuePath = "Id";
             cmbStatus.ItemsSource = js;
+
+            List<JobManager.Model.BranchModel> branches = da.GetBranches();
+            cmbBranch.DisplayMemberPath = "Name";
+            cmbBranch.SelectedValuePath = "Id";
+            cmbBranch.ItemsSource = branches;
+            cmbBranch.SelectedValue = -1;
+
+            this.txtJobId.Text = job.JobId.ToString();
+            this.txtJobName.Text = job.JobName;
+            this.txtCreateDate.Text = job.CreatedDate.ToShortDateString();
+            this.cmbStatus.SelectedValue = job.StatusId;
+            if (job.BranchId != null)
+                this.cmbBranch.SelectedValue = job.BranchId;
+
+            JobModel jobModel = da.GetJobMaterials(jobId);
+            dgJobMaterials.ItemsSource = jobModel.Materials;            
+
+            if (job.StatusId == 2)
+                this.btnCreatePO.IsEnabled = true;
+            else
+                this.btnCreatePO.IsEnabled = false;
         }
         private void btnAddMaterial_Click(object sender, RoutedEventArgs e)
         {
@@ -91,26 +120,45 @@ namespace Job_Manager
 
         private void txtSearchJobId_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = (int)e.Key >= 43 || (int)e.Key <= 34;
+            if(((int)e.Key >=34 && (int)e.Key <= 43) || (int)e.Key == 2 || (int)e.Key == 32 || (int)e.Key == 23 || (int)e.Key == 25)
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
 
         private void dgJobMaterials_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgJobMaterials.SelectedItems.Count > 1)
             {
-               // this.btnEditMaterial.IsEnabled = false;
+                this.btnEditPO.IsEnabled = false;
                 jm = null;
             }
             else
             {
                 jm = (JobMaterialModel)this.dgJobMaterials.SelectedItem;
-                //this.btnEditMaterial.IsEnabled = true;
+                if (jm !=null && jm.POId != null)
+                {
+                    this.btnEditPO.IsEnabled = true;
+                }else
+                {
+                    this.btnEditPO.IsEnabled = false;
+                }
             }
         }
 
         private void btnCreatePO_Click(object sender, RoutedEventArgs e)
         {
-
+            List<JobMaterialModel> lJobMaterialModels = (List<JobMaterialModel>)dgJobMaterials.ItemsSource;
+            List<JobMaterialModel> lJobMaterialIds = lJobMaterialModels.Where(p => p.IsSelected == true).Select(p => p).ToList();
+            CreatePOfromJob createPO = new Job_Manager.CreatePOfromJob(this.jobId,lJobMaterialIds);
+            createPO.ShowInTaskbar = false;
+            createPO.Owner = this;
+            createPO.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            createPO.ShowDialog();
         }
 
         private void btnAddJob_Click(object sender, RoutedEventArgs e)
@@ -127,6 +175,8 @@ namespace Job_Manager
             {
                 job.JobName = this.txtJobName.Text;
                 job.StatusId = Convert.ToInt32(this.cmbStatus.SelectedValue);
+                if(Convert.ToInt32(cmbBranch.SelectedValue) != -1)
+                    job.BranchId = Convert.ToInt32(this.cmbBranch.SelectedValue);
                 da.SaveJobDetails(job);
                 MessageBox.Show("Job details Updated Successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -138,6 +188,15 @@ namespace Job_Manager
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnEditPO_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePOfromJob createPO = new Job_Manager.CreatePOfromJob(this.jobId,Convert.ToInt32(jm.POId));
+            createPO.ShowInTaskbar = false;
+            createPO.Owner = this;
+            createPO.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            createPO.ShowDialog();
         }
     }
 }

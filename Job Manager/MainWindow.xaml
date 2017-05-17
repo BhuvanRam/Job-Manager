@@ -14,7 +14,7 @@
     <Canvas>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Job">
-                <MenuItem Header="_New" IsEnabled="False" />
+                <MenuItem Header="_New" Click="MenuItemAddJob_Click" />
                 <MenuItem Header="_Search" Click="MenuSearchItem_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="MenuExitItem_Click"/>

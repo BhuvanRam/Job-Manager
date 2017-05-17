@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace JobManager.Model
 {
-    public class JobMaterialModel
+    public class JobPOMaterialModel
     {
-        public JobMaterialModel() { }
+
+        public JobPOMaterialModel() { }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,13 +17,10 @@ namespace JobManager.Model
         public string Attributes { get; set; }
         public string Type { get; set; }
 
+        public int RequiredQuantity { get; set; }
+
         public int Quantity { get; set; }
 
-        public int? POId { get; set; }
-        public string OrderedBy { get; set; }
-        public DateTime? OrderedOn { get; set; }
-
-        public bool IsSelected { get; set; }
-
+        public decimal Price { get; set; }
     }
 }

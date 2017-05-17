@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 using JobManager.Model;
 using System.Data;
 using System.Collections;
+using System.Configuration;
 
 namespace JobManager.DAL
 {
     public class DataAccess
     {
         JobManagerDataContext jmdc;
-        public DataAccess() {
-            jmdc = new JobManagerDataContext();
+        public DataAccess()
+        {
+            string connectionString = ConfigurationManager.AppSettings["Global_EnvironConnectionString"];
+            jmdc = new JobManagerDataContext(connectionString);
         }
 
 
@@ -27,6 +30,7 @@ namespace JobManager.DAL
                 jobDetails.JobName = jm.JobName;
                 jobDetails.CreatedDate = jm.CreatedDate;
                 jobDetails.StatusId = jm.StatusId;
+                jobDetails.BranchId = jm.BranchId;
                 return jobDetails;
             }
             return null;
@@ -35,7 +39,7 @@ namespace JobManager.DAL
 
         public void SaveJobDetails(JobModel job)
         {
-            jmdc.UPDJobDetails(job.JobId, job.JobName, job.StatusId);
+            jmdc.UPDJobDetails(job.JobId, job.JobName, job.StatusId, job.BranchId);
         }
 
         public JobModel GetJobMaterials(int jobId)
@@ -52,9 +56,47 @@ namespace JobManager.DAL
                 jmm.Name = jm.Name;
                 jmm.Attributes = jm.Attributes;
                 jmm.Type = jm.Type;
+                jmm.Quantity = jm.Quantity;
+                if (jm.POId.HasValue)
+                {
+                    jmm.POId = Convert.ToInt32(jm.POId);
+                    jmm.IsSelected = true;
+                }
+                else
+                {
+                    jmm.POId = null;
+                    jmm.IsSelected = false;
+                }
+                jmm.OrderedBy = jm.OrderedBy;
+                if (jm.OrderedOn.HasValue)
+                    jmm.OrderedOn = Convert.ToDateTime(jm.OrderedOn);
+                else
+                    jmm.OrderedOn = null;
                 jobModel.Materials.Add(jmm);
             }
             return jobModel;
+        }
+        public List<JobPOMaterialModel> GetJobPOMaterials(int jobId, int? poId)
+        {
+
+            List<JobPOMaterialModel> Materials = new List<JobPOMaterialModel>();
+            var JobMaterials = jmdc.GetJobPOMaterials(jobId, poId);
+
+            foreach (GetJobPOMaterialsResult jm in JobMaterials)
+            {
+                JobPOMaterialModel jmm = new JobPOMaterialModel();
+                jmm.Id = jm.Id;
+                jmm.Name = jm.Name;
+                jmm.Attributes = jm.Attributes;
+                jmm.Type = jm.Type;
+                jmm.RequiredQuantity = jm.RequiredQuantity;
+                if (jm.Quantity.HasValue)
+                    jmm.Quantity = Convert.ToInt32(jm.Quantity);
+                if (jm.UnitPrice.HasValue)
+                    jmm.Price = Convert.ToDecimal(jm.UnitPrice);
+                Materials.Add(jmm);
+            }
+            return Materials;
         }
         public List<MaterialModel> GetMaterialsForJob(int jobId)
         {
@@ -134,8 +176,8 @@ namespace JobManager.DAL
         public List<AttributeModel> GetAllAttributes()
         {
             List<AttributeModel> lAttributes = new List<AttributeModel>();
-            var result = jmdc.Attributes.Select(p => new { AttributeName = p.Name, AttributeId = p.Id, AttributeTypeId = p.TypeId,ParentId = p.ParentId });
-            result.ToList().ForEach(p => { lAttributes.Add(new AttributeModel() { AttributeId = p.AttributeId, AttributeName = p.AttributeName, AttributeTypeId = p.AttributeTypeId,ParentId = Convert.ToInt32(p.ParentId) }); });
+            var result = jmdc.Attributes.Select(p => new { AttributeName = p.Name, AttributeId = p.Id, AttributeTypeId = p.TypeId, ParentId = p.ParentId });
+            result.ToList().ForEach(p => { lAttributes.Add(new AttributeModel() { AttributeId = p.AttributeId, AttributeName = p.AttributeName, AttributeTypeId = p.AttributeTypeId, ParentId = Convert.ToInt32(p.ParentId) }); });
             return lAttributes;
         }
 
@@ -184,12 +226,15 @@ namespace JobManager.DAL
 
 
 
-        public void InsertUpdateJobMaterial(DataTable dtJobMaterial)
+        public void InsertUpdateJobMaterial(DataTable dtJobMaterial, JobMaterialField jmf)
         {
             foreach (DataRow dr in dtJobMaterial.Rows)
             {
                 jmdc.INSUPDJobMaterial(int.Parse(dr["JobId"].ToString()), int.Parse(dr["MaterialId"].ToString()), int.Parse(dr["AttributeId"].ToString()), int.Parse(dr["ValueId"].ToString()), dr["Value"].ToString());
             }
+
+            jmdc.JobMaterialFields.InsertOnSubmit(jmf);
+            jmdc.SubmitChanges();
         }
 
         public void DeleteJobMaterial(int jobId, int materialId)
@@ -240,7 +285,7 @@ namespace JobManager.DAL
             try
             {
                 int? iParentId = objAttributeModel.ParentValue == 0 ? null : (int?)objAttributeModel.ParentValue;
-                AttributeValue objAttributeValue = new AttributeValue() { AttributeId = objAttributeModel.AttributeId, Name = objAttributeModel.Name,ParentValue = iParentId };
+                AttributeValue objAttributeValue = new AttributeValue() { AttributeId = objAttributeModel.AttributeId, Name = objAttributeModel.Name, ParentValue = iParentId };
                 jmdc.AttributeValues.InsertOnSubmit(objAttributeValue);
                 jmdc.SubmitChanges();
                 objAttributeModel.AttributeId = objAttributeValue.AttributeId;
@@ -275,7 +320,7 @@ namespace JobManager.DAL
             bool isResult = true;
             try
             {
-                if(jmdc.Connection.State == ConnectionState.Closed)
+                if (jmdc.Connection.State == ConnectionState.Closed)
                     jmdc.Connection.Open();
                 jmdc.Transaction = jmdc.Connection.BeginTransaction();
                 foreach (AttributeValueModel item in attributeValueModel)
@@ -331,7 +376,7 @@ namespace JobManager.DAL
                     AttributeValue deleteAttributeValue = jmdc.AttributeValues.Where(p => p.Id == attributeValueModel.Id).SingleOrDefault();
                     lDeleteAttributeValue.Add(deleteAttributeValue);
                 }
-                
+
                 jmdc.AttributeValues.DeleteAllOnSubmit(lDeleteAttributeValue);
                 jmdc.SubmitChanges();
             }
@@ -368,7 +413,7 @@ namespace JobManager.DAL
                 int? iParentId = objAttributeModel.ParentId == 0 ? null : (int?)objAttributeModel.ParentId;
                 Attribute objAttribute = jmdc.Attributes.Where(p => p.Id == objAttributeModel.AttributeId).SingleOrDefault();
                 objAttribute.Name = objAttributeModel.AttributeName;
-                objAttribute.ParentId = iParentId;                
+                objAttribute.ParentId = iParentId;
                 jmdc.SubmitChanges();
                 objAttributeModel.AttributeId = objAttribute.Id;
                 return true;
@@ -400,11 +445,11 @@ namespace JobManager.DAL
             try
             {
                 var attributeToBeDeleted = jmdc.Attributes.Where(p => p.Id == iAttributeId).Select(p => p);
-                if(attributeToBeDeleted.Any())
+                if (attributeToBeDeleted.Any())
                 {
                     jmdc.Attributes.DeleteOnSubmit(attributeToBeDeleted.SingleOrDefault());
                     jmdc.SubmitChanges();
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -423,19 +468,19 @@ namespace JobManager.DAL
 
         public List<MaterialAttribute> GetMaterialAttributes()
         {
-            var MaterialAttributes = jmdc.MaterialAttributes.Select(p => p).ToList();            
+            var MaterialAttributes = jmdc.MaterialAttributes.Select(p => p).ToList();
             return MaterialAttributes;
         }
 
         public List<MaterialAttribute> GetMaterialAttributesByMaterialId(int MaterialId)
         {
-            List<MaterialAttribute> MaterialAttribute = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).OrderBy(p => p.SortOder).ToList();           
+            List<MaterialAttribute> MaterialAttribute = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).OrderBy(p => p.SortOder).ToList();
             return MaterialAttribute;
         }
 
         public List<Material> GetMaterials()
         {
-            var Materials = jmdc.Materials.Select(p => p).ToList();            
+            var Materials = jmdc.Materials.Select(p => p).ToList();
             return Materials;
         }
 
@@ -443,7 +488,7 @@ namespace JobManager.DAL
         {
             bool isResult = true;
             try
-            {                
+            {
                 jmdc.Materials.InsertOnSubmit(objSaveMaterial);
                 jmdc.SubmitChanges();
             }
@@ -451,12 +496,12 @@ namespace JobManager.DAL
             {
                 return false;
             }
-            return isResult;        
+            return isResult;
         }
 
         public bool DeleteMaterial(int MaterialId)
         {
-            bool isResult = true;         
+            bool isResult = true;
             try
             {
                 List<MaterialAttribute> lMaterialAttributes = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId).Select(p => p).ToList();
@@ -475,13 +520,13 @@ namespace JobManager.DAL
             return isResult;
         }
 
-        public bool DeleteAttributeFromMaterial(int MaterialId,int AttributeId)
+        public bool DeleteAttributeFromMaterial(int MaterialId, int AttributeId)
         {
             bool isResult = true;
             try
             {
                 MaterialAttribute objMaterialAttribute = jmdc.MaterialAttributes.Where(p => p.MaterialId == MaterialId && p.AttributeId == AttributeId).Select(p => p).FirstOrDefault();
-                if(objMaterialAttribute!=null)
+                if (objMaterialAttribute != null)
                 {
                     jmdc.MaterialAttributes.DeleteOnSubmit(objMaterialAttribute);
                     jmdc.SubmitChanges();
@@ -504,13 +549,13 @@ namespace JobManager.DAL
                 MaterialType objDBMaterialType = jmdc.MaterialTypes.Where(p => p.Id == objUpdateMaterial.TypeId).Select(p => p).FirstOrDefault();
                 objDBMaterial.MaterialType = objDBMaterialType;
                 //objDBMaterial.TypeId = objUpdateMaterial.TypeId;
-                objDBMaterial.IsActive = objUpdateMaterial.IsActive;                
+                objDBMaterial.IsActive = objUpdateMaterial.IsActive;
                 jmdc.SubmitChanges();
             }
             catch (Exception)
             {
                 isUpdate = false;
-                return isUpdate;                
+                return isUpdate;
             }
             return isUpdate;
         }
@@ -521,7 +566,7 @@ namespace JobManager.DAL
             try
             {
                 jmdc.Materials.InsertOnSubmit(objMaterial);
-                jmdc.SubmitChanges();                
+                jmdc.SubmitChanges();
             }
             catch (Exception)
             {
@@ -558,9 +603,9 @@ namespace JobManager.DAL
             catch (Exception)
             {
                 isUpdate = false;
-                return isUpdate;                
+                return isUpdate;
             }
-         
+
             return isUpdate;
         }
 
@@ -570,7 +615,7 @@ namespace JobManager.DAL
             try
             {
                 jmdc.MaterialAttributes.InsertAllOnSubmit(lMaterialAttributes);
-                jmdc.SubmitChanges();                                    
+                jmdc.SubmitChanges();
             }
             catch (Exception)
             {
@@ -602,21 +647,6 @@ namespace JobManager.DAL
             try
             {
                 jmdc.Vendors.InsertOnSubmit(objInsertVendor);
-                jmdc.SubmitChanges();                
-                isInserted = true;
-            }
-            catch (Exception)
-            {
-                isInserted = false;
-            }
-            return isInserted;
-        }
-        public bool AddJob(Job objJob)
-        {
-            bool isInserted = false;
-            try
-            {
-                jmdc.Jobs.InsertOnSubmit(objJob);
                 jmdc.SubmitChanges();
                 isInserted = true;
             }
@@ -625,6 +655,20 @@ namespace JobManager.DAL
                 isInserted = false;
             }
             return isInserted;
+        }
+        public int AddJob(Job objJob)
+        {
+            try
+            {
+                jmdc.Jobs.InsertOnSubmit(objJob);
+                jmdc.SubmitChanges();
+                int newJobId = jmdc.Jobs.OrderByDescending(job => job.Id).First().Id;
+                return newJobId;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
         }
         public bool DeleteVendor(string VendorCode)
         {
@@ -660,11 +704,11 @@ namespace JobManager.DAL
                 objVendor.Email = objUpdateVendor.Email;
                 objVendor.ContactPerson = objUpdateVendor.ContactPerson;
                 jmdc.SubmitChanges();
-                isUpdated = true;                
+                isUpdated = true;
             }
             catch (Exception)
             {
-                return isUpdated;                
+                return isUpdated;
             }
             return isUpdated;
         }
@@ -682,6 +726,21 @@ namespace JobManager.DAL
             }
             return objGetVendor;
         }
+
+        public Vendor GetVendorById(int iVendorId)
+        {
+            Vendor objGetVendor = new Vendor();
+            try
+            {
+                objGetVendor = jmdc.Vendors.Where(p => p.VendorId== iVendorId).Select(p => p).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return objGetVendor;
+        }
+
 
         public List<Vendor> GetVendorByName(string VendorName)
         {
@@ -711,28 +770,28 @@ namespace JobManager.DAL
             return lGetVendors;
         }
 
-        public USER AuthenticateUser(string userName,string Password)
+        public USER AuthenticateUser(string userName, string Password)
         {
             USER objAuthenticateUser = new USER();
             try
             {
                 var AuthenticateUser = jmdc.USERs.Where(p => p.UserName == userName && p.Password == Password);
-                if(AuthenticateUser.Any())
+                if (AuthenticateUser.Any())
                 {
                     objAuthenticateUser = AuthenticateUser.SingleOrDefault();
-                    
+
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             return objAuthenticateUser;
         }
 
         public List<USER> GetAllUsers()
         {
-            List<USER> lUsers = jmdc.USERs.Select( p => p).ToList();
+            List<USER> lUsers = jmdc.USERs.Select(p => p).ToList();
             return lUsers;
         }
 
@@ -744,7 +803,7 @@ namespace JobManager.DAL
 
         public bool CheckUserNameAvailability(string userName)
         {
-            var userDetails =  jmdc.USERs.Where(p => p.UserName == userName);
+            var userDetails = jmdc.USERs.Where(p => p.UserName == userName);
             return userDetails.Any();
         }
 
@@ -762,7 +821,7 @@ namespace JobManager.DAL
                 isInserted = false;
             }
             return isInserted;
-           
+
         }
 
         public bool DeleteUser(int userId)
@@ -781,19 +840,137 @@ namespace JobManager.DAL
             }
             return isDeleted;
         }
-        public List<JobStatus> GetJobStatuses()
+        public List<JobManager.Model.JobStatus> GetJobStatuses()
         {
-            List<JobStatus> jobStatuses = new List<JobStatus>();
-            var values = jmdc.GetJobStatuses();
-
-            foreach (GetJobStatusesResult jm in values)
+            var jobStatuses = jmdc.JobStatus.Select(p => p).ToList();
+            List<JobManager.Model.JobStatus> lJobStatus = new List<JobManager.Model.JobStatus>();
+            foreach (var item in jobStatuses)
             {
-                JobStatus js = new JobStatus();
-                js.Id = jm.Id;
-                js.Name = jm.Name;
-                jobStatuses.Add(js);
+                JobManager.Model.JobStatus objJobStatus = new JobManager.Model.JobStatus();
+                objJobStatus.Id = item.Id;
+                objJobStatus.Name = item.Name;
+                lJobStatus.Add(objJobStatus);
             }
-            return jobStatuses;
+            return lJobStatus;
+        }
+        public List<JobManager.Model.BranchModel> GetBranches()
+        {
+            var branches = jmdc.GetBraches();
+
+            List<JobManager.Model.BranchModel> lBranches = new List<JobManager.Model.BranchModel>();
+            foreach (var item in branches)
+            {
+                JobManager.Model.BranchModel branch = new JobManager.Model.BranchModel();
+                branch.Id = item.Id;
+                branch.Name = item.Name;
+                lBranches.Add(branch);
+            }
+            return lBranches;
+        }
+        public List<JobManager.Model.JobModel> SearchJobs(int? jobId, int? branchId, DateTime? startDate, DateTime? endDate)
+        {
+            var jobs = jmdc.SearchJobDetails(jobId, branchId, startDate, endDate);
+
+            List<JobManager.Model.JobModel> jobsList = new List<JobManager.Model.JobModel>();
+            foreach (var jm in jobs)
+            {
+                JobModel jobDetails = new JobModel();
+                jobDetails.JobId = jm.Id;
+                jobDetails.JobName = jm.JobName;
+                jobDetails.CreatedDate = jm.CreatedDate;
+                jobDetails.StatusId = jm.StatusId;
+                jobDetails.BranchId = jm.BranchId;
+                jobDetails.Status = jm.Status;
+                jobDetails.Branch = jm.Branch;
+                jobsList.Add(jobDetails);
+            }
+            return jobsList;
+        }
+
+        public int InsJobPO(JobPOModel jobPO)
+        {
+            var result = jmdc.INSJobPO(jobPO.JobId, jobPO.CreatedById, jobPO.VendorId, jobPO.Discount, jobPO.Delivery, jobPO.Payment, jobPO.Packing, jobPO.ExciseDuty, jobPO.TaxesExtra, jobPO.TransportInsurance, jobPO.Transportation, jobPO.Octroi);
+            return Convert.ToInt32(result.Single<INSJobPOResult>().Column1);
+        }
+        public void InsJobPOMaterila(int POId, int jobId, JobPOMaterialModel jobPOMaterial)
+        {
+            jmdc.INSJobPOMaterial(POId, jobId, jobPOMaterial.Id, jobPOMaterial.Quantity, jobPOMaterial.Price);
+        }
+
+        public JobPOModel GetJobPODetails(int POId)
+        {
+            var returnedJobPO = jmdc.GetJobPODetails(POId);
+            foreach (GetJobPODetailsResult jm in returnedJobPO)
+            {
+                JobPOModel jobPODetails = new JobPOModel();
+                jobPODetails.JobId = jm.JobId;
+                jobPODetails.POId = jm.Id;
+                jobPODetails.VendorId = jm.VendorId;
+                jobPODetails.StatusId = jm.StatusId;
+                jobPODetails.CreatedBy = jm.CreatedBy;
+                jobPODetails.CreatedOn = jm.CreatedOn;
+                jobPODetails.ApprovedById = jm.ApprovedById;
+                jobPODetails.ApprovedBy = jm.ApprovedBy;
+                jobPODetails.ApprovedOn = jm.ApprovedOn;
+                jobPODetails.Discount = jm.Discount;
+                jobPODetails.Delivery = jm.Delivery;
+                jobPODetails.Payment = jm.Payment;
+                jobPODetails.Packing = jm.Packing;
+                jobPODetails.ExciseDuty = jm.ExciseDuty;
+                jobPODetails.TaxesExtra = jm.TaxesExtra;
+                jobPODetails.TransportInsurance = jm.TransitInsurance;
+                jobPODetails.Transportation = jm.Transportation;
+                jobPODetails.Octroi = jm.Octroi;
+                jobPODetails.PONumber = jm.Fiscal_Year.ToString() + "/" + jm.Id + "/" + jm.JobId;
+                return jobPODetails;
+            }
+            return null;
+        }
+        public List<JobPOStatus> GetJobPOStatuses()
+        {
+            var jobStatuses = jmdc.GetJobPOStatuses();
+            List<JobPOStatus> lJobStatus = new List<JobPOStatus>();
+            foreach (var item in jobStatuses)
+            {
+                JobPOStatus objJobStatus = new JobPOStatus();
+                objJobStatus.Id = item.Id;
+                objJobStatus.Name = item.Name;
+                lJobStatus.Add(objJobStatus);
+            }
+            return lJobStatus;
+        }
+
+        public void DelPOMaterials(int POId)
+        {
+            jmdc.DelJobPOMaterial(POId);
+        }
+        public void UpdJobPO(JobPOModel jobPO)
+        {
+            jmdc.UPDJobPODetails(jobPO.POId, jobPO.ModifiedById, jobPO.VendorId, jobPO.StatusId, jobPO.ApprovedById, jobPO.ApprovedOn, jobPO.Discount, jobPO.Delivery, jobPO.Payment, jobPO.Packing, jobPO.ExciseDuty, jobPO.TaxesExtra, jobPO.TransportInsurance, jobPO.Transportation, jobPO.Octroi);
+        }
+
+        public PurchaseOrder GetPurchaseOrderByJobId(int iJobId)
+        {
+            PurchaseOrder objPurchaseOrder = jmdc.PurchaseOrders.Where(p => p.JobId == iJobId).FirstOrDefault();
+            return objPurchaseOrder;
+        }
+
+        public PurchaseOrder GetPurchaseOrderById(int iPOId)
+        {
+            PurchaseOrder objPurchaseOrder = jmdc.PurchaseOrders.Where(p => p.Id == iPOId).FirstOrDefault();
+            return objPurchaseOrder;
+        }
+
+        public List<MasterData> GetMasterData(string groupName)
+        {
+            List<MasterData> lMasterData = jmdc.MasterDatas.Where(p => p.GroupName == groupName).ToList<MasterData>();
+            return lMasterData;
+        }
+
+        public Branch GetBranchDetails(int BranchId)
+        {
+            Branch brDetail = jmdc.Branches.Where(p => p.Id == BranchId).Select(p => p).FirstOrDefault();
+            return brDetail;
         }
     }
 

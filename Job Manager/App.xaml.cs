@@ -23,6 +23,7 @@ namespace Job_Manager
         protected override void OnStartup(StartupEventArgs e)
         {
             //Create a custom principal with an anonymous identity at startup
+            
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
 
@@ -48,7 +49,7 @@ namespace Job_Manager
                 Thread.Sleep(remainingTimeToShowSplash);
 
             splash.Close();
-
+            
 
             //Show the login view and Dependency Injection         
             loginWindow.ShowDialog();
@@ -58,17 +59,17 @@ namespace Job_Manager
             //var attributeView = new Attribute(objAttributeViewModel);
             //attributeView.ShowDialog();
 
-         //   Attribute_New objAttribute_New = new Attribute_New();
+           // Attribute_New objAttribute_New = new Attribute_New();
            // objAttribute_New.ShowDialog();
 
             //AttributeMainScreen objAttributeMainScreen = new AttributeMainScreen();
             //objAttributeMainScreen.ShowDialog();
 
-            //MaterialScreen objMaterialMainScreen = new MaterialScreen();
-            //objMaterialMainScreen.ShowDialog();
+           // MaterialScreen objMaterialMainScreen = new MaterialScreen();
+           // objMaterialMainScreen.ShowDialog();
 
-            //MaterialMainScreen objMaterialMainScreen = new MaterialMainScreen();
-            //objMaterialMainScreen.ShowDialog();
+         //   MaterialMainScreen objMaterialMainScreen = new MaterialMainScreen();
+        //    objMaterialMainScreen.ShowDialog();
 
             //VendorMainScreen objVendor = new VendorMainScreen();
             //objVendor.ShowDialog();

@@ -55,12 +55,17 @@
             <Border Margin="5" Padding="5" 
           BorderBrush="#4F81BD" BorderThickness="1" CornerRadius="3"
           VerticalAlignment="Top" Grid.Column="0">
-                <StackPanel  MinHeight="500">
+                <StackPanel  MinHeight="350">
                     <Label x:Name="labelAttributes" Style="{StaticResource Style_Label}" Content="Available Attributes"></Label>
-                    <DataGrid x:Name="dAllAttributes" CanUserAddRows="False"  IsEnabled="True" Margin="0,0,0,0" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"  Style="{StaticResource Style_MaterialEditDataGrid}" >
+                    <DataGrid x:Name="dAllAttributes" CanUserAddRows="False" Style="{StaticResource Style_MaterialEditDataGrid}" IsEnabled="True" Margin="0,0,0,0" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Height="320"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" >
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn x:Name="cIsSelected" Binding="{Binding IsSelected}" Header="Select">
-                            </DataGridCheckBoxColumn>
+                            <DataGridTemplateColumn Header="Select">
+                                <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsSelected,UpdateSourceTrigger=PropertyChanged}" Name="cIsSelected" />
+                                </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn IsReadOnly="True" Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.25*"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -71,7 +76,7 @@
             <Border Margin="5" Padding="5" 
           BorderBrush="#4F81BD" BorderThickness="1" CornerRadius="3"
           VerticalAlignment="Top" Grid.Column="2" >
-                <Grid MinHeight="370">
+                <Grid MinHeight="350">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.1*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
@@ -84,7 +89,7 @@
                     <Label x:Name="labelSelectedAttributes" Grid.Row="0" Grid.Column="0" Style="{StaticResource Style_Label}"  Content="Selected Attributes"></Label>
                     <Button x:Name="bReOrderUpButton" Grid.Row="0" Style="{StaticResource Style_UpEnhancement}" Grid.Column="1" Width="30" HorizontalAlignment="Right" Margin="5,0,5,0" Click="bReOrderUpButton_Click"></Button>
                     <Button x:Name="bReOrderDownButton" Style="{StaticResource Style_DowmEnhancement}"  Grid.Row="0" Grid.Column="2" Width="30" HorizontalAlignment="Left" Margin="5,0,0,0" Click="bReOrderDownButton_Click"></Button>
-                    <DataGrid Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="3"  CanUserAddRows="False" x:Name="dSelectedAttributes" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"    Style="{StaticResource Style_MaterialEditDataGrid}" AllowDrop="True" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="3" Height="320"  CanUserAddRows="False" x:Name="dSelectedAttributes" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"    Style="{StaticResource Style_MaterialEditDataGrid}" AllowDrop="True" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Attribute.AttributeName}" Header="Attribute Name" Width="0.70*"></DataGridTextColumn>
 

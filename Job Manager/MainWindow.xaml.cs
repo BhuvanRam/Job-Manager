@@ -40,10 +40,19 @@ namespace Job_Manager
 
         private void MenuSearchItem_Click(object sender, RoutedEventArgs e)
         {
-            JobDetails JobWindow = new Job_Manager.JobDetails();
+            JobSearch JobWindow = new Job_Manager.JobSearch();
             JobWindow.ShowInTaskbar = false;
             JobWindow.Owner = this;
+            JobWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             JobWindow.ShowDialog();
+        }
+        private void MenuItemAddJob_Click(object sender, RoutedEventArgs e)
+        {
+            AddJob addJob = new Job_Manager.AddJob();
+            addJob.ShowInTaskbar = false;
+            addJob.Owner = this;
+            addJob.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            addJob.ShowDialog();
         }
 
         private void MenuExitItem_Click(object sender, RoutedEventArgs e)
@@ -88,6 +97,11 @@ namespace Job_Manager
             objUserMainScreen.ShowInTaskbar = false;
             objUserMainScreen.Owner = this;
             objUserMainScreen.ShowDialog();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

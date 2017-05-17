@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Job_Manager"
         mc:Ignorable="d"
-        Title="Job Details" Height="450" Width="650" WindowStartupLocation="CenterScreen">
+        Title="Job Details" Height="450" Width="830" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Canvas Name="SearchCanvas">
+        <!--<Canvas Name="SearchCanvas">
             <Label Name="lblSearch" Content="Job Id:" Canvas.Top="5" Canvas.Left="10"></Label>
             <TextBox Name="txtSearchJobId" Canvas.Top="10" Canvas.Left="120" Width="100" PreviewKeyDown="txtSearchJobId_PreviewKeyDown"></TextBox>
             <Button Name="btnSearch" Content ="Search" Canvas.Top="10" Canvas.Left="250" Width="100" Click="btnSearch_Click"></Button>
             <Button Name="btnAddJob" Content ="Add Job" Canvas.Top="10" Canvas.Left="400" Width="100" Click="btnAddJob_Click"></Button>
             <Label Name="lblErrorMsg" Content="Job details not found. Please try again!!!" Canvas.Top="40" Canvas.Left="10"></Label>
-        </Canvas>
+        </Canvas>-->
         <Canvas Name="TopCanvas">
              <Label Name="lblJobId" Content="Job Id:" Canvas.Top="40" Canvas.Left="10" FontSize="16" FontWeight="Bold"></Label>
             <TextBox Name="txtJobId" Canvas.Top="40" Canvas.Left="120" FontSize="16" FontWeight="Bold" IsReadOnly="True" Width="100"></TextBox>
@@ -23,35 +23,46 @@
             <TextBox Name="txtCreateDate" Canvas.Top="80" Canvas.Left="120" FontSize="16" FontWeight="Bold" Width="100"></TextBox>
             <Label Name="lblStatus" Content="Status:" Canvas.Top="80" Canvas.Left="250" FontSize="16" FontWeight="Bold"></Label>
             <ComboBox Name="cmbStatus" Canvas.Top="80" Canvas.Left="400" Width="150"></ComboBox>
+            <Label Name="lblBranch" Content="Branch:" Canvas.Top="40" Canvas.Left="560" FontSize="16" FontWeight="Bold"></Label>
+            <ComboBox Name="cmbBranch" Canvas.Top="45" Canvas.Left="660" Width="150"></ComboBox>
             
             <Button Name="btnAddMaterial" Content="_Add Material" Canvas.Top="120" Canvas.Left="10" Click="btnAddMaterial_Click"></Button>
             <Button Name="btnDeleteMaterial" Content="_Delete Material" Canvas.Top="120" Canvas.Left="100" Click="btnDeleteMaterial_Click"></Button>
             <Button Name="btnCreatePO" Content="_Create PO" Canvas.Top="120" Canvas.Left="200" Click="btnCreatePO_Click"></Button>
-            
+            <Button Name="btnEditPO" Content="_Edit PO" Canvas.Top="120" Canvas.Left="280" Click="btnEditPO_Click" IsEnabled="False"></Button>
            
             
-            <DataGrid Name="dgJobMaterials" AutoGenerateColumns="False" Height="200" IsReadOnly="True" Width="600" Canvas.Left="10"  Canvas.Top="160" SelectionChanged="dgJobMaterials_SelectionChanged">
+            <DataGrid Name="dgJobMaterials" AutoGenerateColumns="False" Height="200" Width="740" Canvas.Left="10"  Canvas.Top="160" SelectionChanged="dgJobMaterials_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Width="80" Header="Material"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Type}" Width="80" Header="Type"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Attributes}" Width="140" Header="Attributes">
+                    <DataGridTemplateColumn Header="Select">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected,UpdateSourceTrigger=PropertyChanged}" Name="cIsSelected" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Name}" Width="80" Header="Material" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Type}" Width="80" Header="Type" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Attributes}" Width="140" Header="Attributes" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn  Width="80" Header="PO #"></DataGridTextColumn>
-                <DataGridTextColumn  Width="80" Header="Ordered By"></DataGridTextColumn>
-                <DataGridTextColumn  Width="80" Header="Ordered On"></DataGridTextColumn>
-            </DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Quantity}" Width="80" Header="Quantity" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn  Binding="{Binding POId}" Width="80" Header="PO #" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn  Binding="{Binding OrderedBy}" Width="80" Header="Ordered By" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn  Binding="{Binding OrderedOn}"  Width="130" Header="Ordered On" IsReadOnly="True"></DataGridTextColumn>
+                    
+                </DataGrid.Columns>
             
         </DataGrid>
         </Canvas>
 
-        <Canvas Name="BottonCanvas">
-            <Button Name="btnSave" Content="_Save" Click="btnSave_Click" Canvas.Bottom="10" Canvas.Left="120"></Button>
-            <Button Name="btnCancel" Content="_Cancel"  Click="btnCancel_Click"  Canvas.Bottom="10" Canvas.Left="180"></Button>
+        <Canvas Name="BottonCanvas" HorizontalAlignment="Center">
+            <Button Name="btnSave" Content="_Save" Click="btnSave_Click" Canvas.Bottom="10" Canvas.Left="-20"></Button>
+            <Button Name="btnCancel" Content="_Cancel"  Click="btnCancel_Click"  Canvas.Bottom="10" Canvas.Left="20"></Button>
         </Canvas>
     </Grid>
 </Window>

@@ -61,14 +61,15 @@
 
         <DataGrid x:Name="dGridNewAttributes" Grid.Row="4" Grid.ColumnSpan="4" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"  Style="{StaticResource Style_MaterialDataGrid}" IsReadOnly="False"  CanUserDeleteRows="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header=" Attribute Value" Width="1*" Binding="{Binding Name}"  CanUserSort="False"></DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="dGridAttributesValues" Width="1*" Header="Parent Attribute Value" DisplayMemberPath="Name" TextBinding="{Binding Path=ParentAttributeValueModel.Name}" SelectedValuePath="Id"  CanUserSort="False" SelectedItemBinding="{Binding ParentAttributeValueModel}" >
+                <DataGridTextColumn Header=" Attribute Value" Width="2*" Binding="{Binding Name}"  CanUserSort="False"></DataGridTextColumn>
+                <DataGridComboBoxColumn x:Name="dGridAttributesValues" Width="2*" Header="Parent Attribute Value" DisplayMemberPath="Name" TextBinding="{Binding Path=ParentAttributeValueModel.Name}" SelectedValuePath="Id"  CanUserSort="False" SelectedItemBinding="{Binding ParentAttributeValueModel}" >
                 </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="Sub Attribute Value" Width="1*" Binding="{Binding AttributeName}" CanUserSort="False"></DataGridTextColumn>
+                <DataGridTextColumn Header="Sub Attribute Value" Width="2*" Binding="{Binding AttributeName}" CanUserSort="False"></DataGridTextColumn>
 
                 <DataGridTemplateColumn Header="Delete" Width="0.1*">
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
+                            <Setter Property="Cursor" Value="Hand"/>
                             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="EventSetter_OnHandler"></EventSetter>
                         </Style>
                     </DataGridTemplateColumn.CellStyle>

@@ -13,6 +13,8 @@
         </Canvas>
         <Canvas Name="dynamicsCanvas"></Canvas>
         <Canvas Name="BottonCanvas">
+            <Label Name="lblQty" Content="Quantity" Width="100" Canvas.Left=" 10" Canvas.Bottom="40" Visibility="Hidden"></Label>
+            <TextBox Name="txtQty" Width="150" Canvas.Left="125" Canvas.Bottom="40" Visibility="Hidden" Text="1"></TextBox>
             <Button Name="btnSave" Content="_Save" Click="btnSave_Click" Canvas.Bottom="10" Canvas.Left="120"></Button>
             <Button Name="btnCancel" Content="_Cancel"  Click="btnCancel_Click"  Canvas.Bottom="10" Canvas.Left="180"></Button>
         </Canvas>

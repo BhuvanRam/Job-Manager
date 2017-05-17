@@ -14,6 +14,8 @@
             <TextBox Name="txtCreatedBy" Canvas.Top="35" Canvas.Left="120" Width="100" IsReadOnly="True"></TextBox>
             <Label Name="lblCreatedOn" Content="Created On:" Canvas.Top="65" Canvas.Left="10"></Label>
             <TextBox Name="txtCreatedOn" Canvas.Top="65" Canvas.Left="120" Width="100" IsReadOnly="True"></TextBox>
+            <Label Name="lblBranch" Content="Branch:" Canvas.Top="95" Canvas.Left="10"></Label>
+            <ComboBox Name="cmbBranch" Canvas.Top="95" Canvas.Left="120" Width="100"></ComboBox>
         </Canvas>
         <Canvas Name="BottonCanvas">
             <Button Name="btnSave" Content="_Save" Click="btnSave_Click" Canvas.Bottom="10" Canvas.Left="120"></Button>

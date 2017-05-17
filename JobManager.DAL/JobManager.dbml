@@ -28,6 +28,7 @@
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="TypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Material_MaterialAttribute" Member="MaterialAttributes" ThisKey="Id" OtherKey="MaterialId" Type="MaterialAttribute" />
+      <Association Name="Material_JobMaterialField" Member="JobMaterialFields" ThisKey="Id" OtherKey="MaterialId" Type="JobMaterialField" />
       <Association Name="MaterialType_Material" Member="MaterialType" ThisKey="TypeId" OtherKey="Id" Type="MaterialType" IsForeignKey="true" />
     </Type>
   </Table>
@@ -63,6 +64,7 @@
       <Column Name="FaxNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="ContactPerson" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Vendor_PurchaseOrder" Member="PurchaseOrders" ThisKey="VendorId" OtherKey="VendorId" Type="PurchaseOrder" />
       <Association Name="State_Vendor" Member="State" ThisKey="StateId" OtherKey="StateID" Type="State" IsForeignKey="true" />
     </Type>
   </Table>
@@ -71,14 +73,6 @@
       <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="StateName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="State_Vendor" Member="Vendors" ThisKey="StateID" OtherKey="StateId" Type="Vendor" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Job" Member="Jobs">
-    <Type Name="Job">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedBy" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.ROLES" Member="ROLEs">
@@ -97,7 +91,97 @@
       <Column Name="EmailId" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="USER_PurchaseOrder" Member="PurchaseOrders" ThisKey="UserID" OtherKey="CreatedBy" Type="PurchaseOrder" />
+      <Association Name="USER_PurchaseOrder1" Member="PurchaseOrders1" ThisKey="UserID" OtherKey="ModifiedBy" Type="PurchaseOrder" />
       <Association Name="ROLE_USER" Member="ROLE" ThisKey="RoleId" OtherKey="RoleID" Type="ROLE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JobStatus" Member="JobStatus">
+    <Type Name="JobStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="JobStatus_Job" Member="Jobs" ThisKey="Id" OtherKey="StatusId" Type="Job" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JobMaterialFields" Member="JobMaterialFields">
+    <Type Name="JobMaterialField">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="JobId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaterialId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Material_JobMaterialField" Member="Material" ThisKey="MaterialId" OtherKey="Id" Type="Material" IsForeignKey="true" />
+      <Association Name="Job_JobMaterialField" Member="Job" ThisKey="JobId" OtherKey="Id" Type="Job" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Job" Member="Jobs">
+    <Type Name="Job">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BranchId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Job_JobMaterialField" Member="JobMaterialFields" ThisKey="Id" OtherKey="JobId" Type="JobMaterialField" />
+      <Association Name="Job_PurchaseOrder" Member="PurchaseOrders" ThisKey="Id" OtherKey="JobId" Type="PurchaseOrder" />
+      <Association Name="JobStatus_Job" Member="JobStatus" ThisKey="StatusId" OtherKey="Id" Type="JobStatus" IsForeignKey="true" />
+      <Association Name="Branch_Job" Member="Branch" ThisKey="BranchId" OtherKey="Id" Type="Branch" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PurchaseOrder" Member="PurchaseOrders">
+    <Type Name="PurchaseOrder">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="JobId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ApprovedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ApprovedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VendorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Discount" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Delivery" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Payment" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Packing" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="ExciseDuty" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="TaxesExtra" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="TransitInsurance" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Transportation" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Octroi" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Association Name="Job_PurchaseOrder" Member="Job" ThisKey="JobId" OtherKey="Id" Type="Job" IsForeignKey="true" />
+      <Association Name="USER_PurchaseOrder" Member="USER" ThisKey="CreatedBy" OtherKey="UserID" Type="USER" IsForeignKey="true" />
+      <Association Name="USER_PurchaseOrder1" Member="USER1" ThisKey="ModifiedBy" OtherKey="UserID" Type="USER" IsForeignKey="true" />
+      <Association Name="Vendor_PurchaseOrder" Member="Vendor" ThisKey="VendorId" OtherKey="VendorId" Type="Vendor" IsForeignKey="true" />
+      <Association Name="MasterData_PurchaseOrder" Member="MasterData" ThisKey="StatusId" OtherKey="Id" Type="MasterData" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MasterData" Member="MasterDatas">
+    <Type Name="MasterData">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ValueId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ValueName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="MasterData_PurchaseOrder" Member="PurchaseOrders" ThisKey="Id" OtherKey="StatusId" Type="PurchaseOrder" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Branch" Member="Branches">
+    <Type Name="Branch">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Address1" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Address2" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Fax" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="TIN" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ECC" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Range" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Division" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Branch_Job" Member="Jobs" ThisKey="Id" OtherKey="BranchId" Type="Job" />
     </Type>
   </Table>
   <Function Name="dbo.GetMaterialsForJob" Method="GetMaterialsForJob">
@@ -145,15 +229,6 @@
     <Parameter Name="MaterialId" Parameter="materialId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.GetJobMaterials" Method="GetJobMaterials">
-    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetJobMaterialsResult">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Attributes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.GetAllAttributesTypes" Method="GetAllAttributesTypes">
     <ElementType Name="GetAllAttributesTypesResult">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -176,6 +251,115 @@
       <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetVendors" Method="GetVendors">
+    <ElementType Name="GetVendorsResult">
+      <Column Name="VendorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="VendorName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.INSJobPO" Method="INSJobPO">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VendorId" Parameter="vendorId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Discount" Parameter="discount" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Delivery" Parameter="delivery" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Payment" Parameter="payment" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Packing" Parameter="packing" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="ExciseDuty" Parameter="exciseDuty" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="TaxesExtra" Parameter="taxesExtra" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="TransitInsurance" Parameter="transitInsurance" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Transportation" Parameter="transportation" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Octroi" Parameter="octroi" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <ElementType Name="INSJobPOResult">
+      <Column Name="" Member="Column1" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.INSJobPOMaterial" Method="INSJobPOMaterial">
+    <Parameter Name="POId" Parameter="pOId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MaterialId" Parameter="materialId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetJobMaterials" Method="GetJobMaterials">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobMaterialsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Attributes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="POId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OrderedBy" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="OrderedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetJobPOStatuses" Method="GetJobPOStatuses">
+    <ElementType Name="GetJobPOStatusesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetJobPOMaterials" Method="GetJobPOMaterials">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="POId" Parameter="pOId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobPOMaterialsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Attributes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RequiredQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UnitPrice" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.DelJobPOMaterial" Method="DelJobPOMaterial">
+    <Parameter Name="POId" Parameter="pOId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UPDJobPODetails" Method="UPDJobPODetails">
+    <Parameter Name="POId" Parameter="pOId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VendorId" Parameter="vendorId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StatusId" Parameter="statusId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ApprovedById" Parameter="approvedById" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ApprovedOn" Parameter="approvedOn" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Discount" Parameter="discount" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Delivery" Parameter="delivery" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Payment" Parameter="payment" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Packing" Parameter="packing" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="ExciseDuty" Parameter="exciseDuty" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="TaxesExtra" Parameter="taxesExtra" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="TransitInsurance" Parameter="transitInsurance" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Transportation" Parameter="transportation" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Parameter Name="Octroi" Parameter="octroi" Type="System.Decimal" DbType="Decimal(10,2)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetJobPODetails" Method="GetJobPODetails">
+    <Parameter Name="POId" Parameter="pOId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetJobPODetailsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="VendorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ApprovedById" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ApprovedBy" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ApprovedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Discount" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Delivery" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Payment" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Packing" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="ExciseDuty" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="TaxesExtra" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="TransitInsurance" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Transportation" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Octroi" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Fiscal_Year" Type="System.String" DbType="VarChar(61)" CanBeNull="true" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.GetJobDetails" Method="GetJobDetails">
     <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetJobDetailsResult">
@@ -183,12 +367,35 @@
       <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BranchId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetBraches" Method="GetBraches">
+    <ElementType Name="GetBrachesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
   <Function Name="dbo.UPDJobDetails" Method="UPDJobDetails">
     <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
     <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(200)" />
     <Parameter Name="StatusId" Parameter="statusId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BranchId" Parameter="branchId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SearchJobDetails" Method="SearchJobDetails">
+    <Parameter Name="JobId" Parameter="jobId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BranchId" Parameter="branchId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="SearchJobDetailsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="BranchId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Branch" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
   </Function>
 </Database>

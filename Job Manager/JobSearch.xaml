@@ -1,0 +1,49 @@
+﻿<Window x:Class="Job_Manager.JobSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Manager"
+        mc:Ignorable="d"
+        Title="Job Search" Height="500" Width="600">
+    <Grid>
+        <Canvas Name="SearchCanvas">
+            <Label Name="lblSearch" Content="Job Id:" Canvas.Top="5" Canvas.Left="10"></Label>
+            <TextBox Name="txtSearchJobId" Canvas.Top="10" Canvas.Left="120" Width="150" PreviewKeyDown="txtSearchJobId_PreviewKeyDown"></TextBox>
+            <Label Name="lblBranch" Content="Branch:" Canvas.Top="5" Canvas.Left="275"></Label>
+            <ComboBox Name="cmbBranch" Canvas.Top="10" Canvas.Left="350" Width="150"></ComboBox>
+            <Button Name="btnSearch" Canvas.Top="60" Content="Search" Canvas.Left="525" Click="btnSearch_Click"></Button>
+            <GroupBox Name="grpBxCreatedDateRange"  Canvas.Top="35" Width="520" Height="70" Header="Created Between">
+                <Grid>
+                    <Canvas>
+                    <Label Name="lblStartDate" Content="Start Date:" Canvas.Top="5" Canvas.Left="10"></Label>
+                    <DatePicker Name="dtPickStartDate" Canvas.Top="10" Canvas.Left="120" Width="150"></DatePicker>
+                        <Label Name="lblEndDate" Content="End Date:" Canvas.Top="5" Canvas.Left="275" Width="150"></Label>
+                        <DatePicker Name="dtPickEndDate" Canvas.Top="10" Canvas.Left="350" Width="150"></DatePicker>
+                    </Canvas>
+                </Grid>
+               
+                
+            </GroupBox>
+        </Canvas>
+        <Canvas Name="ResultsCanvas">
+            <DataGrid Name="dgJobSearchResult" AutoGenerateColumns="False" Height="200" Width="560" Canvas.Left="10"  Canvas.Top="120" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridHyperlinkColumn Binding="{Binding JobId}" Header="JobId" Width="60">
+                        <DataGridHyperlinkColumn.ElementStyle>
+                            <Style>
+                                <EventSetter Event="Hyperlink.Click" Handler="DG_JobId_Click"/>
+                            </Style>
+                        </DataGridHyperlinkColumn.ElementStyle>
+                    </DataGridHyperlinkColumn>
+                    <DataGridTextColumn Binding="{Binding JobName}" Width="120" Header="Job Name" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding CreatedDate}" Width="100" Header="Created On" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Status}" Width="120" Header="Status" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Branch}" Width="150" Header="Branch" IsReadOnly="True"></DataGridTextColumn>                   
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Canvas>
+    </Grid>
+</Window>
