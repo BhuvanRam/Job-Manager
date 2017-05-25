@@ -206,11 +206,21 @@ namespace Job_Manager
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            if(POId!=0)
+            try
             {
-                PurchaseOrderReport poReport = new PurchaseOrderReport(POId);
-                poReport.ShowDialog();
+                if (POId != 0)
+                {
+                    PurchaseOrderReport poReport = new PurchaseOrderReport(POId);
+                    poReport.ShowDialog();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error While generating Report");
+                
+
+            }
+            
         }
     }
 }
